@@ -1,4 +1,4 @@
-# Toolbox for my own use with interesting tools using AI
+# Toolbox with AI tools
 
 First plan assumes that I will try doing following tools:
   - Code analysis with local LLM - currently LLMs have limited context size, and because of that when generating code with tools like copilot it tends to create a lot of redundant code, because of lack of ability to search existing codebase for already implemented modules which can be reused. This can be partialy remedied by RAG pipelines, but it's probable that generic RAG solutions doesn't work well with code. I want to test and experiment with other solutions for LLMs to "understand" code.
