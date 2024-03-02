@@ -1,5 +1,3 @@
-# 100_commitow
-
 # Toolbox for my own use with interesting tools using AI
 
 First plan assumes that I will try doing following tools:
