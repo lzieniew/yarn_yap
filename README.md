@@ -27,4 +27,3 @@ There are some youtube channels and programs that have similar function to YarnY
   <img src="architecture.png" alt="Architecture diagram" width="100%">
 </div>
 
-
