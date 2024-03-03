@@ -1,0 +1,8 @@
+High level overwiev of what has to be done for YarnYap - article to speech prgram, that will convert article or reddit thread into youtube video
+  1. Extracting text from text only article
+  2. Extracting text from reddit thread, going only to n-th depth level of comments, and assignemnt of available voice to username
+  3. Creating API that will generate voice from text with tortoise TTS
+  4. Expanding API with endpoints for cleaning the text from things that will not sound good with voice, like code or raw data - using some local llm
+  5. Generating images for the video
+  6. Uploading videos to YouTube, maybe also other platforms
+
