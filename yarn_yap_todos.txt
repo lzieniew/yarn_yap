@@ -1,8 +1,19 @@
 High level overwiev of what has to be done for YarnYap - article to speech prgram, that will convert article or reddit thread into youtube video
   1. Extracting text from text only article
+    - I have to find some good tool for extracting text from webpage, maybe firefox reader has some package with programmig api, or some other option. As a last option I can try processing the raw html code with local LLM, but I'm not sure if this will not change the text
   2. Extracting text from reddit thread, going only to n-th depth level of comments, and assignemnt of available voice to username
+    - I have to find the best option for this, I know some command line tools and libraries, but I have to check how they will handle the amount of traffic I want to have (single person, few times a day). Offical API is not an option, after the last reddit price hike and considering the fact that this tool should be free to use.
   3. Creating API that will generate voice from text with tortoise TTS
+    - has to split long text into multiple lines by sentences, process sentences separately and then combine result into one file
   4. Expanding API with endpoints for cleaning the text from things that will not sound good with voice, like code or raw data - using some local llm
+    - problematic things in text:
+      - numbers - has to be converted into words, like 42 -> fourty two
+      - abbreviations - they had to be written with spaces in order for tortoise TTS to read them properly, like GPU -> G P U
+      - special characters - tortoise tts handles only some essential special characters, like . , ! ? Other special characters like " ' etc should be removed
+      - links - they will be a mess when read by tortoise tts, they should be removed, maybe replaced with short note describing the link
+      - code snippets - especially when they are multiline, they will sound bad. They should be replaced by simple description of the code, made by some local LLM
   5. Generating images for the video
   6. Uploading videos to YouTube, maybe also other platforms
+    - remember about adding links to original article/reddit thread to video description
+    - create and use generic video description, showing how this video was generated, linking this program
 
