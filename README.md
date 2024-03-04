@@ -1,6 +1,6 @@
 # YarnYap - simple tool for automatically converting articles and Reddit threads into voice and uploading the to popular video platforms
 
-## YarnYap architecture:
+## Architecture:
   - I will use tortoise tts https://github.com/neonbjb/tortoise-tts for generating voice from text
   - The application will be intended for self hosting, so it will server a single user that has a computer with GPU powerful enough to run voice generation at reasonable speed
   - User will access locally hosted website in order to put there links to articles or reddit threads to convert into speech
