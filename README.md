@@ -1,4 +1,4 @@
-# YarnYap - convinient high qualiy text to speech for articles and reddit threads 
+# YarnYap - convinient high qualiy articles TTS
 
 A simple tool for automatically converting articles and Reddit threads into voice and uploading the to popular video platforms
 
