@@ -2,6 +2,9 @@
 
 A simple tool for automatically converting articles and Reddit threads into voice and uploading the to popular video platforms
 
+![YarnYap logo](logo.png)
+
+
 ## Architecture:
   - I will use tortoise tts https://github.com/neonbjb/tortoise-tts for generating voice from text
   - The application will be intended for self hosting, so it will server a single user that has a computer with GPU powerful enough to run voice generation at reasonable speed
