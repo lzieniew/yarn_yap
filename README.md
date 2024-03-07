@@ -2,8 +2,9 @@
 
 A simple tool for automatically converting articles and Reddit threads into voice and uploading the to popular video platforms
 
-![YarnYap logo](logo.png)
-
+<div align="center">
+  <img src="logo.png" alt="YarnYap logo">
+</div>
 
 ## Architecture:
   - I will use tortoise tts https://github.com/neonbjb/tortoise-tts for generating voice from text
