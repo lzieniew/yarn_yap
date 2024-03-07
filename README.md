@@ -3,7 +3,7 @@
 A simple tool for automatically converting articles and Reddit threads into voice and uploading the to popular video platforms
 
 <div align="center">
-  <img src="logo.png" alt="YarnYap logo">
+  <img src="logo.png" alt="YarnYap logo" width="40%">
 </div>
 
 ## Architecture:
