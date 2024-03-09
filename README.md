@@ -20,3 +20,11 @@ There are some youtube channels and programs that have similar function to YarnY
   - high quality TTS - i want to use Tortoise TTS https://github.com/neonbjb/tortoise-tts which puts emphasis on quality of the speech
   - nice UI - as I want to use this tool daily, nice UI is important for me. Most of existing solutions are just scripts which need to be run manually, and links are passed by some textfile or directly to the script, which isn't convinient
   - support for plain text articles, not only reddit threads
+
+## Architecture
+
+<div align="center">
+  <img src="architecture.png" alt="Architecture diagram" width="70%">
+</div>
+
+
