@@ -27,3 +27,10 @@ There are some youtube channels and programs that have similar function to YarnY
   <img src="architecture.png" alt="Architecture diagram" width="100%">
 </div>
 
+#### Backend endpoints
+  - add link - it starts background job that's fetching content of links and sanitizing them
+  - get list of links - list the links and their statuses - if the text is fetched, sanitazed and if it has been already processed or not. In case the background job for the link was interrupted it retry it
+  - get voice for link - returns the voice file or information that it's not yet processed
+#### GPU server endpoints
+  - convert text
+
