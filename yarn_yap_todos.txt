@@ -1,12 +1,14 @@
 High level overwiev of what has to be done for YarnYap - article to speech prgram, that will convert article or reddit thread into youtube video
+  1. Create Backend component and 
+
+
+
   1. Extracting text from text only article
-    - Decide what technology I will use for creating the website and API
-      - API will be fastapi, a python backend framework 
-        - I will use poetry for dependencies management
-      - frontend will be done in VUE.js
-    - I have to find some good tool for extracting text from webpage, maybe firefox reader has some package with programmig api, or some other option. As a last option I can try processing the raw html code with local LLM, but I'm not sure if this will not change the text
+    [ ] choose library for fetching text
+    [ ] choose how to sanitize text
+    [ ] implement text sanitization
   2. Extracting text from reddit thread, going only to n-th depth level of comments, and assignemnt of available voice to username
-    - I have to find the best option for this, I know some command line tools and libraries, but I have to check how they will handle the amount of traffic I want to have (single person, few times a day).
+    [ ] I have to find the best option for this, I know some command line tools and libraries, but I have to check how they will handle the amount of traffic I want to have (single person, few times a day).
   3. Creating API that will generate voice from text with tortoise TTS
     - has to split long text into multiple lines by sentences, process sentences separately and then combine result into one file
   4. Expanding API with endpoints for cleaning the text from things that will not sound good with voice, like code or raw data - using some local llm
