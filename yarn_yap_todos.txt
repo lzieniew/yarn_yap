@@ -6,7 +6,7 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   4. Implement cleaning mechanism in the background worker
   5. Create a service that will actually generate text
   6. Define and create an API for this speech generating service
-  7. Create a frontend 
+  7. Create a frontend in VUE js
 
 
 
