@@ -1,7 +1,18 @@
 High level overwiev of what has to be done for YarnYap - article to speech prgram, that will convert article or reddit thread into youtube video
+  0. Create a basic docker configuration with docker-compose, so the software can be run easily
   1. Create Backend component and database, create simple endpoint for adding url to database
-  2. 
+  2. Create a background worker, make the basic mechanism of fetching the urls from database
+  3. Define cleaning mechanism requirements, with basic tests
+  4. Implement cleaning mechanism in the background worker
+  5. Create a service that will actually generate text
+  6. Define and create an API for this speech generating service
+  7. Create a frontend 
 
+
+
+
+===================================================
+Old version of project todos, might still be useful:
 
 
   1. Extracting text from text only article
