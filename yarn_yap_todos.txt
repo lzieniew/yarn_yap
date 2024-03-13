@@ -1,5 +1,6 @@
 High level overwiev of what has to be done for YarnYap - article to speech prgram, that will convert article or reddit thread into youtube video
-  1. Create Backend component and 
+  1. Create Backend component and database, create simple endpoint for adding url to database
+  2. 
 
 
 
