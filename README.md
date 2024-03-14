@@ -3,7 +3,7 @@
 A simple tool for automatically converting articles and Reddit threads into voice and uploading the to popular video platforms
 
 <div align="center">
-  <img src="logo.png" alt="YarnYap logo" width="40%">
+  <img src="docs/logo.png" alt="YarnYap logo" width="40%">
 </div>
 
 ## Architecture:
@@ -24,7 +24,7 @@ There are some youtube channels and programs that have similar function to YarnY
 ## Architecture
 
 <div align="center">
-  <img src="architecture.png" alt="Architecture diagram" width="100%">
+  <img src="docs/architecture.png" alt="Architecture diagram" width="100%">
 </div>
 
 #### Backend endpoints
