@@ -8,3 +8,6 @@ By testing the StyleTTS voice generation with multiple text I've found following
   5. A bit different topic, but in the online demo there are sometimes some unpleasent noises. 
     I have to find what causes them (maybe some characters, possibly invisible, or generating long content at once?) and try to fix it. 
     Maybe even try some noise detection and automatic removal solution on created voice file
+  6. ¯\_(ツ)_/¯ this "emoji" xD
+  7. Also I should check normal emojis
+  8. spaces between the sentences, as their lack may cause some weird sounds
