@@ -12,6 +12,9 @@ services:
     depends_on:
       - mongodb
 
+  worker:
+    build: worker/.
+
   mongodb:
     image: mongo:latest
     ports:
