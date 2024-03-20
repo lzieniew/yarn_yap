@@ -5,6 +5,7 @@ By testing the StyleTTS voice generation with multiple text I've found following
     Should be removed or replaced with description, made by LLM or even single function, for example "Link to domain facebook.com"
   3. Dash character: "-". Just remove it, it's often found in text, but the way every TTS reads it sounds sooo wrong. It would be better if it was ignored
   4. Other special characters - check what effect could they have and remove those that cause bad sounding things.
+    For example _ can also be problematic, especially when something is written like _thing_ or __other__
   5. A bit different topic, but in the online demo there are sometimes some unpleasent noises. 
     I have to find what causes them (maybe some characters, possibly invisible, or generating long content at once?) and try to fix it. 
     Maybe even try some noise detection and automatic removal solution on created voice file
