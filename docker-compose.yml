@@ -32,7 +32,7 @@ services:
     ports:
       - "3100:3100"
     environment:
-      MONGOKU_DEFAULT_HOST: "mongodb://mongodb:27017"
+      MONGOKU_DEFAULT_HOST: "mongodb:27017"
     depends_on:
       - mongodb
 
