@@ -1,18 +1,14 @@
-# Use the specified Python base image
+#Warning! This dockerfile is meant to be built with context set to top directory of this project
+
 FROM python:3.12
 
-# Set the working directory in the container
-WORKDIR /app/backend
+WORKDIR /app
 
-# Copy the Python dependencies file to the container
-COPY ./requirements.txt .
+COPY shared /app/shared
+COPY backend /app/
 
-# Install any dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the content of the local app directory to the container
-COPY ./app /app/
+WORKDIR /app
 
-# Command to run the application using uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--reload"]
-
+CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--reload"]

@@ -2,7 +2,9 @@ version: '3.8'
 services:
 
   web:
-    build: backend/.
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
     ports:
       - "8000:8000"
     volumes:
@@ -13,7 +15,9 @@ services:
       - mongodb
 
   worker:
-    build: worker/.
+    build:
+      context: .
+      dockerfile: ./worker/Dockerfile
     volumes:
       - ./worker:/app
     depends_on:
