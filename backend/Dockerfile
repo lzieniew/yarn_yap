@@ -5,9 +5,11 @@ FROM python:3.12
 WORKDIR /app
 
 COPY shared /app/shared
-COPY backend /app/
+COPY backend/requirements.txt /app/requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
+
+COPY backend /app/
 
 WORKDIR /app
 

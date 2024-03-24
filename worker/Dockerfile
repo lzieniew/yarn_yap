@@ -5,10 +5,12 @@ FROM python:3.12-slim
 WORKDIR /app
 
 # Copy the Python script into the container
-COPY worker /app
+COPY worker/requirements.txt /app/requirements.txt
 COPY shared /app/shared
 
 # Install pymongo for MongoDB interaction
-RUN pip install -r requirements.txt
+RUN pip install -r /app/requirements.txt
+
+COPY worker /app
 
 CMD ["python", "worker.py"]
