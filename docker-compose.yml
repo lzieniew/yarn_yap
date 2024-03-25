@@ -22,6 +22,9 @@ services:
       - ./worker:/app
     depends_on:
       - mongodb
+      - web
+    environment:
+      - PYTHONUNBUFFERED=1
 
   mongodb:
     image: mongo:latest

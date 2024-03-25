@@ -11,6 +11,6 @@ COPY shared /app/shared
 # Install pymongo for MongoDB interaction
 RUN pip install -r /app/requirements.txt
 
-COPY worker /app
+COPY worker /app/
 
-CMD ["python", "worker.py"]
+CMD ["python", "/app/worker.py"]

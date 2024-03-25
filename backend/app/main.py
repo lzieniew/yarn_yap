@@ -1,9 +1,10 @@
 from typing import List
 from bson import ObjectId
-from shared import JobStatus
-from shared import Job, JobCreate
 from fastapi import FastAPI, HTTPException
 from pymongo import MongoClient
+from shared.enums import JobStatus
+
+from shared.models import Job, JobCreate
 
 
 app = FastAPI()

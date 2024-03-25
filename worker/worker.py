@@ -9,24 +9,20 @@ db = client["mydatabase"]
 collection = db["jobs"]
 
 
-def fetch_and_print_objects():
-    start_time = time.time()
+def process_jobs():
+    jobs = list(collection.find())
 
-    objects = collection.find()
 
-    print(f"There is {len(objects)} jobs in mongo")
+    print(f"There is {len(jobs)} jobs in mongo")
+    print(f"First job has status {jobs[0]['status']}")
+    for job_dict in jobs:
+        job = Job(**job_dict)
+        print(job)
 
-    end_time = time.time()
-    execution_time = end_time - start_time
-    current_time = datetime.now().strftime(
-        "%Y-%m-%d %H:%M:%S"
-    )  # Get the current datetime
+        pass
 
-    print(f"Current Time: {current_time}")
-    print(f"Execution time of fetch_and_print_objects: {execution_time:.5f} seconds")
-
-    time.sleep(2)
 
 
 while True:
-    fetch_and_print_objects()
+    process_jobs()
+    time.sleep(5)
