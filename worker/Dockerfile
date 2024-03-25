@@ -1,16 +1,13 @@
 #Warning! This dockerfile is meant to be built with context set to top directory of this project
 
-FROM python:3.12-slim
+FROM python:3.12
 
 WORKDIR /app
 
-# Copy the Python script into the container
 COPY worker/requirements.txt /app/requirements.txt
 COPY shared /app/shared
 
-# Install pymongo for MongoDB interaction
 RUN pip install -r /app/requirements.txt
+RUN pip install watchdog
 
-COPY worker /app/
-
-CMD ["python", "/app/worker.py"]
+CMD ["watchmedo", "auto-restart", "--directory=/app", "--pattern=*.py", "--recursive", "--", "python", "/app/worker/worker.py"]

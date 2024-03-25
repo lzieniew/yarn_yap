@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: ./worker/Dockerfile
     volumes:
-      - ./worker:/app
+      - .:/app
     depends_on:
       - mongodb
       - web

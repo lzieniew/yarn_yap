@@ -1,7 +1,7 @@
 import time
 from datetime import datetime
 from pymongo import MongoClient
-
+from shared import Job
 
 # Connect to MongoDB
 client = MongoClient("mongodb://mongodb:27017")
