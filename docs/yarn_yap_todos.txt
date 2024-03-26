@@ -2,13 +2,14 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   0. [x] Create a basic docker configuration with docker-compose, so the software can be run easily
   1. [x] Create Backend component and database, create simple endpoint for adding url to database
   2. [x] Create a background worker, make the basic mechanism of fetching the urls from database
-  3. [ ] Define cleaning mechanism requirements, with basic manual tests using the styletts engine
-  4. [ ] Implement cleaning mechanism in the background worker
-  5. [ ] Implement splitter mechanism, that will split text into chunks which can be sent to the voice generating service
-  6. [ ] Create a service that will actually generate voice from text
-  7. [ ] Use the voice generating service in background worker, also implement mechanism for splitting the text into chunks which can be processed at once
-  7. [ ] Define and create an API for this speech generating service
-  8. [ ] Create a frontend in VUE js
+  3. [ ] Implement changing of the statuses in the worker
+  4. [ ] Define cleaning mechanism requirements, with basic manual tests using the styletts engine
+  5. [ ] Implement cleaning mechanism in the background worker
+  6. [ ] Implement splitter mechanism, that will split text into chunks which can be sent to the voice generating service
+  7. [ ] Create a service that will actually generate voice from text
+  8. [ ] Use the voice generating service in background worker, also implement mechanism for splitting the text into chunks which can be processed at once
+  9. [ ] Define and create an API for this speech generating service
+  10. [ ] Create a frontend in VUE js
 
 
 Other things todo:
