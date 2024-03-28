@@ -14,15 +14,11 @@ def process_jobs():
 
 
     print(f"There is {len(jobs)} jobs in mongo")
-    print(f"First job has status {jobs[0]['status']}")
     for job_dict in jobs:
         job = Job(**job_dict)
-        print(job)
-
         pass
-
 
 
 while True:
     process_jobs()
-    time.sleep(5)
+    time.sleep(1)
