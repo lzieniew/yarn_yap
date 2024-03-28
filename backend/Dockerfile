@@ -5,7 +5,7 @@ FROM python:3.12
 WORKDIR /app
 
 COPY backend/requirements.txt /app/requirements.txt
-COPY shared /app/shared
+COPY shared_components /app/shared_components
 
 RUN pip install --no-cache-dir -r requirements.txt
 #COPY backend /app/

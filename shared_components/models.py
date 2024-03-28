@@ -3,7 +3,7 @@ from typing_extensions import Any
 from bson import ObjectId
 from pydantic import BaseModel, Field, model_validator
 
-from enums import JobStatus
+from .enums import JobStatus
 
 
 class Job(BaseModel):

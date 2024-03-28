@@ -1,2 +1,2 @@
 pymongo
--e shared
+./shared_components

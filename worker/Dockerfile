@@ -5,9 +5,11 @@ FROM python:3.12
 WORKDIR /app
 
 COPY worker/requirements.txt /app/requirements.txt
-COPY shared /app/shared
+COPY shared_components /app/shared_components
 
-RUN pip install -r /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 RUN pip install watchdog
+
+ENV PYTHONPATH /app
 
 CMD ["watchmedo", "auto-restart", "--directory=/app", "--pattern=*.py", "--recursive", "--", "python", "/app/worker/worker.py"]

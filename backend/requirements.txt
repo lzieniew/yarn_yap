@@ -3,4 +3,4 @@ uvicorn
 motor
 python-dotenv
 pymongo
--e shared
+./shared_components

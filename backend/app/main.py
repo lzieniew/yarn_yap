@@ -2,9 +2,9 @@ from typing import List
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException
 from pymongo import MongoClient
-from shared.enums import JobStatus
+from shared_components import JobStatus
 
-from shared.models import Job, JobCreate
+from shared_components import Job, JobCreate
 
 
 app = FastAPI()
