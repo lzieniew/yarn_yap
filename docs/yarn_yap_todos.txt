@@ -19,6 +19,10 @@ Other things todo:
   - [ ] optimize Dockerfiles, so change in shared_components won't trigger reinstallation of all requirements
 
 
+Testing different TTS engines:
+  - StyleTTS - current first choice, very fast, reasonable speed even on CPU only, good quality
+  - https://github.com/jasonppy/VoiceCraft - to check, hard to run but very good quality
+
 ===================================================
 Old version of project todos, might still be useful:
 
