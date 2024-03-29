@@ -2,23 +2,25 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   0. [x] Create a basic docker configuration with docker-compose, so the software can be run easily
   1. [x] Create Backend component and database, create simple endpoint for adding url to database
   2. [x] Create a background worker, make the basic mechanism of fetching the urls from database
-  3. [ ] Implement changing of the statuses in the worker
+  3. [x] Implement changing of the statuses in the worker
   4. [ ] Define cleaning mechanism requirements, with basic manual tests using the styletts engine
   5. [ ] Implement cleaning mechanism in the background worker
-  6. [ ] Implement splitter mechanism, that will split text into chunks which can be sent to the voice generating service
-  7. [ ] Create a service that will actually generate voice from text
-  8. [ ] Use the voice generating service in background worker, also implement mechanism for splitting the text into chunks which can be processed at once
-  9. [ ] Define and create an API for this speech generating service
-  10. [ ] Create a frontend in VUE js
+  6. [ ] Write tests for cleaning
+  7. [ ] Design and create an API for voice generating service
+  8. [ ] Create a service that will actually generate voice from text
+  9. [ ] Use the voice generating service in background worker, also implement mechanism for splitting the text into chunks which can be processed at once
+  10. [ ] Create the fetching mechanism
+  11. [ ] Create a frontend in VUE js
+  12. [ ] Adapt fetching mechanism for Reddit
 
 
 Test sanitization and generation on this article: https://daniel.haxx.se/blog/2024/01/02/the-i-in-llm-stands-for-intelligence/)
 
 
 Other things todo:
-  - [ ] make the list jobs endpoint return ids, that are visible in swagger
+  - [x] make the list jobs endpoint return ids, that are visible in swagger
   - [x] fix import from shared in worker
-  - [ ] optimize Dockerfiles, so change in shared_components won't trigger reinstallation of all requirements
+  - [x] optimize Dockerfiles, so change in shared_components won't trigger reinstallation of all requirements
 
 
 Testing different TTS engines:

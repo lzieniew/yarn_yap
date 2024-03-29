@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from typing import List
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException
@@ -7,12 +8,13 @@ from shared_components import Job, JobCreate
 from shared_components.db_init import init_db
 
 
-app = FastAPI()
-
-
-@app.on_event("startup")
-async def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     await init_db()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.post("/jobs/")
