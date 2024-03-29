@@ -5,10 +5,11 @@ FROM python:3.12
 WORKDIR /app
 
 COPY worker/requirements.txt /app/requirements.txt
-COPY shared_components /app/shared_components
-
 RUN pip install --no-cache-dir -r /app/requirements.txt
+
 RUN pip install watchdog
+COPY shared_components /app/shared_components
+RUN pip install ./shared_components
 
 ENV PYTHONPATH /app
 

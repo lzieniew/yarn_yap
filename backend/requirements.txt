@@ -3,4 +3,3 @@ uvicorn
 motor
 python-dotenv
 beanie
-./shared_components
