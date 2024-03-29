@@ -10,7 +10,12 @@ class Job(BaseModel):
     url: str | None = None
     raw_text: str | None = None
     sanitized_text: str | None = None
+    audio_path: str | None = None
     status: JobStatus
+
+    def save(self, collection):
+        dump = self.model_dump()
+        collection.insert_one(dump)
 
 
 class JobCreate(BaseModel):
