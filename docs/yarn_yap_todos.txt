@@ -15,7 +15,8 @@ Test sanitization and generation on this article: https://daniel.haxx.se/blog/20
 
 Other things todo:
   - [ ] make the list jobs endpoint return ids, that are visible in swagger
-  - [ ] fix import from shared in worker
+  - [x] fix import from shared in worker
+  - [ ] optimize Dockerfiles, so change in shared_components won't trigger reinstallation of all requirements
 
 
 ===================================================
