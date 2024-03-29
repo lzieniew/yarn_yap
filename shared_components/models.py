@@ -1,21 +1,21 @@
 from typing import Dict, Optional
 from typing_extensions import Any
-from bson import ObjectId
 from pydantic import BaseModel, Field, model_validator
+from beanie import Document
 
 from .enums import JobStatus
 
 
-class Job(BaseModel):
+class JobModel(BaseModel):
     url: str | None = None
     raw_text: str | None = None
     sanitized_text: str | None = None
     audio_path: str | None = None
     status: JobStatus
 
-    def save(self, collection):
-        dump = self.model_dump()
-        collection.insert_one(dump)
+
+class Job(Document, JobModel):
+    pass
 
 
 class JobCreate(BaseModel):

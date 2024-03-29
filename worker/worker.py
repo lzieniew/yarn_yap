@@ -14,6 +14,9 @@ collection = db["jobs"]
 
 
 def process_job(job: Job):
+    if job.status == JobStatus.GENERATED:
+        return
+
     if job.status == JobStatus.CREATED:
         job.raw_text = fetch_url(job.url)
         job.status = JobStatus.FETCHED
@@ -39,5 +42,5 @@ def process_jobs():
 
 
 while True:
-    process_jobs()
+    #process_jobs()
     time.sleep(1)

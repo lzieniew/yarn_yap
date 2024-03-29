@@ -2,5 +2,5 @@ fastapi
 uvicorn
 motor
 python-dotenv
-pymongo
+beanie
 ./shared_components

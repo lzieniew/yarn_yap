@@ -1,19 +1,18 @@
 from typing import List
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException
-from pymongo import MongoClient
 from shared_components import JobStatus
 
 from shared_components import Job, JobCreate
+from shared_components.db_init import init_db
 
 
 app = FastAPI()
 
 
-# Connect to your MongoDB database
-client = MongoClient("mongodb://mongodb:27017/")
-db = client["mydatabase"]
-collection = db["jobs"]
+@app.on_event("startup")
+async def startup_event():
+    await init_db()
 
 
 @app.post("/jobs/")
@@ -21,19 +20,20 @@ async def create_job(job_create: JobCreate):
     job_data = job_create.model_dump()
     job = Job(**job_data, sanitized_text=None, status=JobStatus.CREATED)
 
-    job_dict = job.model_dump()
-    result = collection.insert_one(job_dict)
-    return {"_id": str(result.inserted_id)}
+    result = await job.create()
+    return {"id": str(result.id)}
 
 
 @app.get("/jobs/", response_model=List[Job])
 async def list_jobs():
-    jobs = []
-    for job_dict in collection.find({}):
-        job_dict["id"] = str(job_dict.pop("_id"))
-        job = Job.model_validate(job_dict)
-        jobs.append(job)
-    return jobs
+    return await Job.find().to_list()
+
+
+@app.delete("/jobs")
+async def delete_all_jobs():
+    # Delete all jobs from the database
+    await Job.delete_all()
+    return {"message": "All jobs have been deleted."}
 
 
 @app.get("/jobs/{job_id}", response_model=Job)
