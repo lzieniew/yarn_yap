@@ -1,1 +1,7 @@
 beanie
+
+pytest
+mongomock
+pytest-asyncio
+pytest-mock
+docker
