@@ -3,13 +3,15 @@ from datetime import datetime
 from shared_components import Job
 from shared_components.db_init import init_db
 from shared_components.enums import JobStatus
-from fetcher import fetch_url
-from generator import generate
-from sanitizer import sanitize
+from .fetcher import fetch_url
+from .generator import generate
+from .sanitizer import sanitize
 from shared_components.utils import run_async
 
 
 def process_job(job: Job):
+    print("Im a jooooooooob")
+    print(job.status)
     if job.status == JobStatus.GENERATED:
         return
 
@@ -40,8 +42,8 @@ def main():
     run_async(init_db())
     while True:
         process_jobs()
-        time.sleep(10)
+        time.sleep(5)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -5,3 +5,4 @@ mongomock
 pytest-asyncio
 pytest-mock
 docker
+pymongo

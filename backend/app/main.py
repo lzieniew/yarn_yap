@@ -20,7 +20,7 @@ app = FastAPI(lifespan=lifespan)
 @app.post("/jobs/")
 async def create_job(job_create: JobCreate):
     job_data = job_create.model_dump()
-    status = JobStatus.CREATED if job_data['url'] else JobStatus.FETCHED
+    status = JobStatus.CREATED if job_data["url"] else JobStatus.FETCHED
     job = Job(**job_data, sanitized_text=None, status=status)
 
     result = await job.create()
