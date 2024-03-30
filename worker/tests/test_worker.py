@@ -1,7 +1,3 @@
-import asyncio
-from beanie.odm.utils.init import init_beanie
-from motor.motor_asyncio import AsyncIOMotorClient
-import pytest
 from shared_components.enums import JobStatus
 from shared_components.models import Job
 from shared_components.utils import run_async
@@ -16,8 +12,3 @@ def test_worker(mongo_db):
     jobs = run_async(Job.find().to_list())
     assert len(jobs) == 1
     assert jobs[0].status == JobStatus.GENERATED
-
-
-@pytest.mark.asyncio
-async def test_second():
-    pass
