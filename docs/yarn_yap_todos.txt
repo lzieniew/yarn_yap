@@ -4,11 +4,11 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   2. [x] Create a background worker, make the basic mechanism of fetching the urls from database
   3. [x] Implement changing of the statuses in the worker
   4. [x] Define cleaning mechanism requirements, with basic manual tests using the styletts engine
-  5. [ ] Implement cleaning mechanism in the background worker
-  6. [in progress] Write tests for cleaning
-  7. [ ] Design and create an API for voice generating service
-  8. [ ] Create a service that will actually generate voice from text
-  9. [ ] Use the voice generating service in background worker, also implement mechanism for splitting the text into chunks which can be processed at once
+  5. [ ] Design and create an API for voice generating service
+  6. [ ] Create a service that will actually generate voice from text
+  7. [ ] Use the voice generating service in background worker, also implement mechanism for splitting the text into chunks which can be processed at once
+  8. [ ] Implement cleaning mechanism in the background worker
+  9. [ ] Write tests for cleaning
   10. [ ] Check if there is some way to clean already generated audio from those strange glitches
   11. [ ] Create the fetching mechanism
   12. [ ] Create a frontend in VUE js
@@ -22,6 +22,7 @@ Other things todo:
   - [x] make the list jobs endpoint return ids, that are visible in swagger
   - [x] fix import from shared in worker
   - [x] optimize Dockerfiles, so change in shared_components won't trigger reinstallation of all requirements
+  - [x] setup tests with mongodb
 
 
 Testing different TTS engines:
