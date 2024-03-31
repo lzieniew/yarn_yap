@@ -14,7 +14,7 @@ async def health_check():
 async def generate_audio(text: str):
     try:
         # Assuming text_to_speech returns the path of the generated audio file
-        path_to_audio_file = "/app/generated_files/test.wav"
+        path_to_audio_file = "/app/text_to_speech/generated_files/test.wav"
         return FileResponse(
             path=path_to_audio_file, media_type="audio/mpeg", filename="speech.mp3"
         )

@@ -30,6 +30,8 @@ services:
     build:
       context: .
       dockerfile: ./text_to_speech/Dockerfile
+    ports:
+      - "7321:8000"
     volumes:
       - .:/app
 
