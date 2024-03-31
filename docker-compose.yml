@@ -26,6 +26,13 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
 
+  text_to_speech:
+    build:
+      context: .
+      dockerfile: ./text_to_speech/Dockerfile
+    volumes:
+      - .:/app
+
   mongodb:
     image: mongo:latest
     ports:
