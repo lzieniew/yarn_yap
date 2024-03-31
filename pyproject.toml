@@ -1,2 +1,6 @@
 [tool.pyright]
 extraPaths = ["shared"]
+
+[tool.pytest.ini_options]
+python_paths = ["./worker/"]
+

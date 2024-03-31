@@ -13,4 +13,4 @@ RUN pip install ./shared_components
 
 ENV PYTHONPATH /app
 
-CMD ["watchmedo", "auto-restart", "--directory=/app", "--pattern=*.py", "--recursive", "--", "python", "/app/worker/worker.py"]
+CMD ["watchmedo", "auto-restart", "--directory=/app", "--pattern=*.py", "--recursive", "--", "python", "-m", "worker.worker"]
