@@ -1,0 +1,3 @@
+[submodule "text_to_speech/StyleTTS2"]
+	path = text_to_speech/StyleTTS2
+	url = https://github.com/NeuralVox/StyleTTS2
