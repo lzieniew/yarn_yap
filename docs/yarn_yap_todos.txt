@@ -4,6 +4,7 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   2. [x] Create a background worker, make the basic mechanism of fetching the urls from database
   3. [x] Implement changing of the statuses in the worker
   4. [x] Define cleaning mechanism requirements, with basic manual tests using the styletts engine
+  5. [ ] Get StyleTTS2 to run in the dummy endpoint
   5. [ ] Design and create an API that returns sound as a response
   6. [ ] Implement receiving the raw sound and saving it as sound file in the worker
   6. [ ] Create a service that will actually generate voice from text

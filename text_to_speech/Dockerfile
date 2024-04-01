@@ -1,9 +1,18 @@
 FROM python:3.12
 
+# Install Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+# Update PATH to include Rust
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+
 WORKDIR /app
 
 COPY text_to_speech/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+COPY text_to_speech/StyleTTS2/requirements.txt /app/styletts2_requirements.txt
+RUN pip install --no-cache-dir -r styletts2_requirements.txt
 
 COPY shared_components /app/shared_components
 RUN pip install /app/shared_components

@@ -34,6 +34,8 @@ services:
       - "7321:8000"
     volumes:
       - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
 
   mongodb:
     image: mongo:latest
