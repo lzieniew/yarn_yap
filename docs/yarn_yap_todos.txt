@@ -4,17 +4,18 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   2. [x] Create a background worker, make the basic mechanism of fetching the urls from database
   3. [x] Implement changing of the statuses in the worker
   4. [x] Define cleaning mechanism requirements, with basic manual tests using the styletts engine
-  5. [ ] Get StyleTTS2 to run in the dummy endpoint
-  5. [ ] Design and create an API that returns sound as a response
-  6. [ ] Implement receiving the raw sound and saving it as sound file in the worker
-  6. [ ] Create a service that will actually generate voice from text
-  7. [ ] Use the voice generating service in background worker, also implement mechanism for splitting the text into chunks which can be processed at once
-  8. [ ] Implement cleaning mechanism in the background worker
-  9. [ ] Write tests for cleaning
-  10. [ ] Check if there is some way to clean already generated audio from those strange glitches
-  11. [ ] Create the fetching mechanism
-  12. [ ] Create a frontend in VUE js
-  13. [ ] Adapt fetching mechanism for Reddit
+  5. [ ] Extract only needed parts from StyleTTS2 and refactor them to use absolute imports
+  6  [ ] Get StyleTTS2 to run in the dummy endpoint
+  7. [ ] Design and create an API that returns sound as a response
+  8. [ ] Implement receiving the raw sound and saving it as sound file in the worker
+  9. [ ] Create a service that will actually generate voice from text
+  10. [ ] Use the voice generating service in background worker, also implement mechanism for splitting the text into chunks which can be processed at once
+  11. [ ] Implement cleaning mechanism in the background worker
+  12. [ ] Write tests for cleaning
+  13. [ ] Check if there is some way to clean already generated audio from those strange glitches
+  14. [ ] Create the fetching mechanism
+  15. [ ] Create a frontend in VUE js
+  16. [ ] Adapt fetching mechanism for Reddit
 
 
 Test sanitization and generation on this article: https://daniel.haxx.se/blog/2024/01/02/the-i-in-llm-stands-for-intelligence/)
