@@ -31,3 +31,4 @@ Other things todo:
 Testing different TTS engines:
   - StyleTTS - current first choice, very fast, reasonable speed even on CPU only, good quality
   - https://github.com/jasonppy/VoiceCraft - to check, hard to run but very good quality
+  - coqui TTS - license is worse than for example StyleTTS, but it soudns good in polish, so maybe I will try and use it
