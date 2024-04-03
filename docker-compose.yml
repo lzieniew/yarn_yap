@@ -36,6 +36,13 @@ services:
       - .:/app
     environment:
       - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
 
   mongodb:
     image: mongo:latest
