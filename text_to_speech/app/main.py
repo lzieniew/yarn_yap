@@ -1,5 +1,4 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.params import Body
+from fastapi import Body, FastAPI, HTTPException
 from fastapi.responses import FileResponse
 import torch
 from TTS.api import TTS
@@ -29,9 +28,8 @@ async def health_check():
 
 @app.post("/tts/")
 async def generate_audio():
-    text: str = (Body(..., example="Text to generate by model"),)
-    language: str = Language.en
-
+    text: str = Body(..., example="Text to generate by model")
+    language: Language = Body(..., example=Language.en)
     try:
         path_to_audio_file = run_generation(text, language)
         return FileResponse(
