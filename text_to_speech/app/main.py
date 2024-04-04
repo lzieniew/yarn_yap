@@ -27,13 +27,14 @@ async def health_check():
 
 
 @app.post("/tts/")
-async def generate_audio():
-    text: str = Body(..., example="Text to generate by model")
-    language: Language = Body(..., example=Language.en)
+async def generate_audio(
+    text: str = Body(..., example="Text to generate by model"),
+    language: Language = Body(..., example=Language.en),
+):
     try:
-        path_to_audio_file = run_generation(text, language)
+        path_to_audio_file = run_generation(text, language.name)
         return FileResponse(
-            path=path_to_audio_file, media_type="audio/mpeg", filename="speech.mp3"
+            path=path_to_audio_file, media_type="audio/wav", filename="speech.wav"
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

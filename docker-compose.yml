@@ -23,6 +23,7 @@ services:
     depends_on:
       - mongodb
       - web
+      - text_to_speech
     environment:
       - PYTHONUNBUFFERED=1
 

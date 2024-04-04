@@ -1,4 +1,8 @@
 beanie
+nltk
+requests
+langdetect
+pydub
 
 pytest
 mongomock

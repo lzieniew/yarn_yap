@@ -1,4 +1,5 @@
 import time
+import nltk
 from shared_components import Job
 from shared_components.db_init import init_db
 from shared_components.enums import JobStatus
@@ -25,7 +26,7 @@ def process_job(job: Job):
         run_async(job.save())
 
     if job.status == JobStatus.SANITIZED:
-        job.audio_path = generate(job.sanitized_text)
+        job.audio_path = generate(job.sanitized_text, str(job.id))
         job.status = JobStatus.GENERATED
         run_async(job.save())
 
