@@ -7,8 +7,17 @@ from TTS.api import TTS
 app = FastAPI()
 
 
-def run_generation():
-    pass
+def run_generation(text: str, language: str) -> str:
+    file_path = "/app/text_to_speech/generated_files/output.wav"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)
+    tts.tts_to_file(
+        text=text,
+        speaker_wav="/app/text_to_speech/voices/female.wav",
+        language=language,
+        file_path=file_path,
+    )
+    return file_path
 
 
 @app.get("/health")
@@ -17,11 +26,9 @@ async def health_check():
 
 
 @app.post("/tts/")
-async def generate_audio(text: str):
+async def generate_audio(text: str, language: str = "en"):
     try:
-        run_generation()
-        # Assuming text_to_speech returns the path of the generated audio file
-        path_to_audio_file = "/app/text_to_speech/generated_files/test.wav"
+        path_to_audio_file = run_generation(text, language)
         return FileResponse(
             path=path_to_audio_file, media_type="audio/mpeg", filename="speech.mp3"
         )
