@@ -1,7 +1,9 @@
 from contextlib import asynccontextmanager
+import os
 from typing import List
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException
+from starlette.responses import FileResponse
 from shared_components import JobStatus
 
 from shared_components import Job, JobCreate
@@ -51,3 +53,18 @@ async def get_job(job_id: str):
             raise HTTPException(status_code=404, detail="Job not found")
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/jobs/{job_id}/audio")
+async def get_job_audio(job_id: str):
+    job = await Job.find_one(Job.id == ObjectId(job_id))
+
+    if job is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    audio_path = job.audio_path
+
+    if not audio_path or not os.path.isfile(audio_path):
+        raise HTTPException(status_code=404, detail="Audio file not found")
+
+    return FileResponse(audio_path)

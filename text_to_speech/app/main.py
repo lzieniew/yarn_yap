@@ -14,7 +14,7 @@ def run_generation(text: str, language: str) -> str:
     tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)
     tts.tts_to_file(
         text=text,
-        speaker_wav="/app/text_to_speech/voices/female.wav",
+        speaker_wav="/app/text_to_speech/voices/dragan.wav",
         language=language,
         file_path=file_path,
     )
