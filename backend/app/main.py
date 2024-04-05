@@ -3,7 +3,7 @@ import os
 from typing import List
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException
-from starlette.responses import FileResponse
+from starlette.responses import FileResponse, HTMLResponse
 from shared_components import JobStatus
 
 from shared_components import Job, JobCreate
@@ -68,3 +68,34 @@ async def get_job_audio(job_id: str):
         raise HTTPException(status_code=404, detail="Audio file not found")
 
     return FileResponse(audio_path)
+
+
+@app.get("/remove-newlines", response_class=HTMLResponse)
+async def remove_newlines_page():
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Remove Newlines</title>
+        <script>
+            function removeNewlines() {
+                var text = document.getElementById("inputText").value;
+                var processedText = text.replace(/\n/g, '');
+                document.getElementById("outputText").value = processedText;
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Remove Newlines from Text</h1>
+
+        <textarea id="inputText" rows="10" cols="50" placeholder="Paste your text here"></textarea>
+        <br>
+        <button onclick="removeNewlines()">Remove Newlines</button>
+        <br>
+        <textarea id="outputText" rows="10" cols="50" placeholder="Processed text will appear here" readonly></textarea>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content)

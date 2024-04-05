@@ -9,9 +9,11 @@ from .enums import JobStatus
 class JobModel(BaseModel):
     url: str | None = None
     raw_text: str | None = None
-    sanitized_text: str | None = None
+    sanitized_text: list[str] | None = None
     audio_path: str | None = None
     status: JobStatus
+    progress_percent: int | None = None
+    generation_time: int | None = None
 
 
 class Job(Document, JobModel):

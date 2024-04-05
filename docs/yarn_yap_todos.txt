@@ -61,6 +61,7 @@ Other things todo:
       worker-1          | pydub.exceptions.CouldntDecodeError: Decoding failed. ffmpeg returned error code: 1
   - [ ] check text and sentence which failed in my notes
   - [ ] Check and try to split long sentences into shorter ones (there are warnings that pl has 224 chars limit)
+  - [ ] fix error with accpeting the license
 
 Testing different TTS engines:
   - StyleTTS - current first choice, very fast, reasonable speed even on CPU only, good quality

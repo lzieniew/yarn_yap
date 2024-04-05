@@ -1,3 +1,4 @@
+import os
 from fastapi import Body, FastAPI, HTTPException
 from fastapi.responses import FileResponse
 import torch
@@ -9,6 +10,7 @@ app = FastAPI()
 
 
 def run_generation(text: str, language: str) -> str:
+    os.environ["COQUI_TOS_AGREED"] = "1"
     file_path = "/app/text_to_speech/generated_files/output.wav"
     device = "cuda" if torch.cuda.is_available() else "cpu"
     tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)
