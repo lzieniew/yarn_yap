@@ -33,6 +33,32 @@ Other things todo:
   - [ ] Add progress field for generating - it will be useful for long texts
   - [ ] Try to implement some resuming mechanism (very useful for long jobs), maybe other collection in mongo with saving small files - it can even be deleted after job is done. The key might be job_id + index of sentence
   - [ ] ??? Implement automaticaly extracting sample voice from youtube link
+  - [ ] Fix error and make the process resistant to errors
+      worker-1          | Traceback (most recent call last):
+      worker-1          |   File "<frozen runpy>", line 198, in _run_module_as_main
+      worker-1          |   File "<frozen runpy>", line 88, in _run_code
+      worker-1          |   File "/app/worker/worker.py", line 49, in <module>
+      worker-1          |     main()
+      worker-1          |   File "/app/worker/worker.py", line 44, in main
+      worker-1          |     process_jobs()
+      worker-1          |   File "/app/worker/worker.py", line 38, in process_jobs
+      worker-1          |     process_job(job)
+      worker-1          |   File "/app/worker/worker.py", line 29, in process_job
+      worker-1          |     job.audio_path = generate(job.sanitized_text, str(job.id))
+      worker-1          |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      worker-1          |   File "/app/worker/generator.py", line 17, in generate
+      worker-1          |     segments.append(send_tts_request(sentence, language=language))
+      worker-1          |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      worker-1          |   File "/app/worker/tts_adapter.py", line 17, in send_tts_request
+      worker-1          |     return send_coqui_tts_request(text, language)
+      worker-1          |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      worker-1          |   File "/app/worker/tts_adapter.py", line 13, in send_coqui_tts_request
+      worker-1          |     return AudioSegment.from_file(io.BytesIO(response.content), format="wav")
+      worker-1          |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      worker-1          |   File "/usr/local/lib/python3.12/site-packages/pydub/audio_segment.py", line 773, in from_file
+      worker-1          |     raise CouldntDecodeError(
+      worker-1          | pydub.exceptions.CouldntDecodeError: Decoding failed. ffmpeg returned error code: 1
+  - [ ] check text and sentence which failed in my notes
 
 Testing different TTS engines:
   - StyleTTS - current first choice, very fast, reasonable speed even on CPU only, good quality
