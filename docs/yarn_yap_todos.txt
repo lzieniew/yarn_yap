@@ -26,7 +26,8 @@ Other things todo:
   - [x] fix import from shared in worker
   - [x] optimize Dockerfiles, so change in shared_components won't trigger reinstallation of all requirements
   - [x] setup tests with mongodb
-  - [ ] implement saving elapsed time in Job model
+  - [ ] implement saving elapsed time in Job model, and also somehow printing it in every call
+  - [ ] make initialization only once at text_to_speech service startup, instead every time the endpoint is called, and measure difference
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
   - [ ] Sanitazed text should be kept in mongo as table of sentences
@@ -59,6 +60,7 @@ Other things todo:
       worker-1          |     raise CouldntDecodeError(
       worker-1          | pydub.exceptions.CouldntDecodeError: Decoding failed. ffmpeg returned error code: 1
   - [ ] check text and sentence which failed in my notes
+  - [ ] Check and try to split long sentences into shorter ones (there are warnings that pl has 224 chars limit)
 
 Testing different TTS engines:
   - StyleTTS - current first choice, very fast, reasonable speed even on CPU only, good quality
