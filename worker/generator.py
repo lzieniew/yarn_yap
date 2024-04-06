@@ -33,5 +33,6 @@ def generate(sentences: list[str], job: Job):
 
     combined = sum(segments)
     output_filename = f"/app/{id}.wav"
+    breakpoint()
     combined.export(output_filename, format="wav")
     return output_filename
