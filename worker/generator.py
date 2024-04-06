@@ -17,6 +17,7 @@ def generate(sentences: list[str], job: Job):
     print(f"Generating text for {sentences_count} sentences")
     segments = []
     for sentence in sentences:
+        print(f"Starting generating sentence {sentence}")
         try:
             language = detect(sentence)
         except LangDetectException:
