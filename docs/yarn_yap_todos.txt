@@ -28,6 +28,7 @@ Other things todo:
   - [x] optimize Dockerfiles, so change in shared_components won't trigger reinstallation of all requirements
   - [x] setup tests with mongodb
   - [x] implement saving elapsed time in Job model, and also somehow printing it in every call
+  - [ ] Fix issue with now generating text "Ale jajo!" xD It's detected as 'sl', so maybe it's better to detect text language as a whole - but then single sentences in other languages will not work
   - [ ] make initialization only once at text_to_speech service startup, instead every time the endpoint is called, and measure difference
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
