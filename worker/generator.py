@@ -1,12 +1,13 @@
 from langdetect import detect
 from shared_components.models import Job
+from shared_components.utils import run_async
 
 from worker.tts_adapter import send_tts_request
 
 
 def update_progress(processed_sentences: int, all_sentences: int, job: Job):
-    job.progress_percent = (processed_sentences / all_sentences) * 100.0
-    job.save()
+    job.progress_percent = f"{(processed_sentences / all_sentences) * 100.0:.2f}"
+    run_async(job.save())
 
 
 def generate(sentences: list[str], job: Job):

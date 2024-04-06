@@ -12,7 +12,7 @@ class JobModel(BaseModel):
     sanitized_text: list[str] | None = None
     audio_path: str | None = None
     status: JobStatus
-    progress_percent: int | None = None
+    progress_percent: str | None = None
     generation_time: int | None = None
 
 

@@ -37,13 +37,6 @@ services:
       - .:/app
     environment:
       - PYTHONUNBUFFERED=1
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            count: 1
-            capabilities: [gpu]
 
   mongodb:
     image: mongo:latest
@@ -61,6 +54,14 @@ services:
       MONGOKU_DEFAULT_HOST: "mongodb:27017"
     depends_on:
       - mongodb
+
+  static_site:
+    image: nginx:alpine
+    volumes:
+      - ./remove_newlines_website:/usr/share/nginx/html:ro
+    ports:
+      - "8080:80"
+
 
 volumes:
   mongodb_data:

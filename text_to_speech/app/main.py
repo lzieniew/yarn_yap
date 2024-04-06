@@ -1,4 +1,6 @@
+from contextlib import asynccontextmanager
 import os
+from time import time
 from fastapi import Body, FastAPI, HTTPException
 from fastapi.responses import FileResponse
 import torch
@@ -6,20 +8,33 @@ from TTS.api import TTS
 from text_to_speech.app.enums import Language
 
 
-app = FastAPI()
+tts = None
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global tts
+    start_time = time()
+    os.environ["COQUI_TOS_AGREED"] = "1"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)
+    print(f"Initialization done! It took {time() - start_time}")
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 def run_generation(text: str, language: str) -> str:
-    os.environ["COQUI_TOS_AGREED"] = "1"
+    start_time = time()
     file_path = "/app/text_to_speech/generated_files/output.wav"
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)
     tts.tts_to_file(
         text=text,
         speaker_wav="/app/text_to_speech/voices/dragan.wav",
         language=language,
         file_path=file_path,
     )
+    print(f"Whole generation of text of length {len(text)} took {time() - start_time}")
     return file_path
 
 
@@ -33,6 +48,7 @@ async def generate_audio(
     text: str = Body(..., example="Text to generate by model"),
     language: Language = Body(..., example=Language.en),
 ):
+    print(f"Starting generation for text with {len(text)} characters")
     try:
         path_to_audio_file = run_generation(text, language.name)
         return FileResponse(

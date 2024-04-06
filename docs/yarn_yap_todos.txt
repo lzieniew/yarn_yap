@@ -10,6 +10,7 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   8. [x] Implement receiving the raw sound and saving it as sound file in the worker
   9. [x] Create a service that will actually generate voice from text
   10. [x] Use the voice generating service in background worker, also implement mechanism for splitting the text into chunks which can be processed at once
+  11. [ ] implement handling inactivity of the text generator container
   11. [ ] Implement cleaning mechanism in the background worker
   12. [ ] Write tests for cleaning
   13. [ ] Check if there is some way to clean already generated audio from those strange glitches
@@ -26,40 +27,15 @@ Other things todo:
   - [x] fix import from shared in worker
   - [x] optimize Dockerfiles, so change in shared_components won't trigger reinstallation of all requirements
   - [x] setup tests with mongodb
-  - [ ] implement saving elapsed time in Job model, and also somehow printing it in every call
+  - [x] implement saving elapsed time in Job model, and also somehow printing it in every call
   - [ ] make initialization only once at text_to_speech service startup, instead every time the endpoint is called, and measure difference
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
-  - [ ] Sanitazed text should be kept in mongo as table of sentences
-  - [ ] Add progress field for generating - it will be useful for long texts
+  - [x] Sanitazed text should be kept in mongo as table of sentences
+  - [x] Add progress field for generating - it will be useful for long texts
   - [ ] Try to implement some resuming mechanism (very useful for long jobs), maybe other collection in mongo with saving small files - it can even be deleted after job is done. The key might be job_id + index of sentence
   - [ ] ??? Implement automaticaly extracting sample voice from youtube link
   - [ ] Fix error and make the process resistant to errors
-      worker-1          | Traceback (most recent call last):
-      worker-1          |   File "<frozen runpy>", line 198, in _run_module_as_main
-      worker-1          |   File "<frozen runpy>", line 88, in _run_code
-      worker-1          |   File "/app/worker/worker.py", line 49, in <module>
-      worker-1          |     main()
-      worker-1          |   File "/app/worker/worker.py", line 44, in main
-      worker-1          |     process_jobs()
-      worker-1          |   File "/app/worker/worker.py", line 38, in process_jobs
-      worker-1          |     process_job(job)
-      worker-1          |   File "/app/worker/worker.py", line 29, in process_job
-      worker-1          |     job.audio_path = generate(job.sanitized_text, str(job.id))
-      worker-1          |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      worker-1          |   File "/app/worker/generator.py", line 17, in generate
-      worker-1          |     segments.append(send_tts_request(sentence, language=language))
-      worker-1          |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      worker-1          |   File "/app/worker/tts_adapter.py", line 17, in send_tts_request
-      worker-1          |     return send_coqui_tts_request(text, language)
-      worker-1          |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      worker-1          |   File "/app/worker/tts_adapter.py", line 13, in send_coqui_tts_request
-      worker-1          |     return AudioSegment.from_file(io.BytesIO(response.content), format="wav")
-      worker-1          |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      worker-1          |   File "/usr/local/lib/python3.12/site-packages/pydub/audio_segment.py", line 773, in from_file
-      worker-1          |     raise CouldntDecodeError(
-      worker-1          | pydub.exceptions.CouldntDecodeError: Decoding failed. ffmpeg returned error code: 1
-  - [ ] check text and sentence which failed in my notes
   - [ ] Check and try to split long sentences into shorter ones (there are warnings that pl has 224 chars limit)
   - [ ] fix error with accpeting the license
 
