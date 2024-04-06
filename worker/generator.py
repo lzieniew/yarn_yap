@@ -1,4 +1,5 @@
-from langdetect import detect
+from langdetect import detect, LangDetectException
+
 from shared_components.models import Job
 from shared_components.utils import run_async
 
@@ -16,7 +17,11 @@ def generate(sentences: list[str], job: Job):
     print(f"Generating text for {sentences_count} sentences")
     segments = []
     for sentence in sentences:
-        language = detect(sentence)
+        try:
+            language = detect(sentence)
+        except LangDetectException:
+            print(f"Sentence {sentence} can't be generated, skipping..")
+            continue
         segments.append(send_tts_request(sentence, language=language))
         processed_sentences_count += 1
         update_progress(
