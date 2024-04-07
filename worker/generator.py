@@ -3,7 +3,7 @@ from langdetect import detect, LangDetectException
 from shared_components.models import Job
 from shared_components.utils import run_async
 
-from worker.tts_adapter import send_tts_request
+from worker.tts_adapter import LanguageNotSupportedException, send_tts_request
 
 
 def update_progress(processed_sentences: int, all_sentences: int, job: Job):
@@ -17,22 +17,32 @@ def generate(sentences: list[str], job: Job):
     print(f"Generating text for {sentences_count} sentences")
     segments = []
     for sentence in sentences:
-        print(f"Starting generating sentence {sentence}")
         try:
             language = detect(sentence)
         except LangDetectException:
+            # if langdetect cant recognize language it means the sentence doesn't have any worth generating words, skipping
             print(f"Sentence {sentence} can't be generated, skipping..")
             continue
-        segments.append(send_tts_request(sentence, language=language))
+        print(
+            f"Starting generating sentence {sentence}, language {language}, fallback language {job.text_language}"
+        )
+        try:
+            segments.append(
+                send_tts_request(
+                    sentence, language=language, fallback_language=job.text_language
+                )
+            )
+        except LanguageNotSupportedException as ex:
+            # neither sentence language or whole text language are supported, skipping
+            print(f"Error {ex}")
+            continue
         processed_sentences_count += 1
         update_progress(
             processed_sentences=processed_sentences_count,
             all_sentences=sentences_count,
             job=job,
         )
-
     combined = sum(segments)
-    output_filename = f"/app/{id}.wav"
-    breakpoint()
+    output_filename = f"/app/{job.id}.wav"
     combined.export(output_filename, format="wav")
     return output_filename

@@ -38,17 +38,45 @@ def run_generation(text: str, language: str) -> str:
     return file_path
 
 
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
+@app.get("/ready")
+async def readiness_check():
+    return {"ready": tts is not None}
+
+
+@app.get("/languages")
+async def supported_languages():
+    return {
+        "supported_languages": [
+            "en",
+            "es",
+            "fr",
+            "de",
+            "it",
+            "pt",
+            "pl",
+            "tr",
+            "ru",
+            "nl",
+            "nl",
+            "cs",
+            "ar",
+            "zh-cn",
+            "ja",
+            "hu",
+            "ko",
+            "hi",
+        ]
+    }
 
 
 @app.post("/tts/")
 async def generate_audio(
     text: str = Body(..., example="Text to generate by model"),
-    language: Language = Body(..., example=Language.en),
+    language: str = Body(..., example="en"),
 ):
-    print(f"Starting generation for text with {len(text)} characters")
+    print(
+        f"Starting generation for text with {len(text)} characters, language {language}, text: {text}"
+    )
     try:
         path_to_audio_file = run_generation(text, language.name)
         return FileResponse(
