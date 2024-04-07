@@ -43,6 +43,7 @@ Other things todo:
   - [ ] Improve sentence splitting, especially on text with a lot of extra dots (np. Pasta o spłuczce do kibla)
   - [ ] Fix error with duplicating jobs - maybe make different function for saving and upating
   - [ ] Fix progress in percent - right now it ignores skipped sentneces, and doesn't reach 100%
+  - [ ] Write worker tests, create mock text_to_speech api for it
 
 Testing different TTS engines:
   - StyleTTS - current first choice, very fast, reasonable speed even on CPU only, good quality

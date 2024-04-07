@@ -5,7 +5,6 @@ from fastapi import Body, FastAPI, HTTPException
 from fastapi.responses import FileResponse
 import torch
 from TTS.api import TTS
-from text_to_speech.app.enums import Language
 
 
 tts = None
