@@ -78,7 +78,7 @@ async def generate_audio(
         f"Starting generation for text with {len(text)} characters, language {language}, text: {text}"
     )
     try:
-        path_to_audio_file = run_generation(text, language.name)
+        path_to_audio_file = run_generation(text, language)
         return FileResponse(
             path=path_to_audio_file, media_type="audio/wav", filename="speech.wav"
         )

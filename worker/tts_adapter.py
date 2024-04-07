@@ -39,8 +39,12 @@ def send_coqui_tts_request(text: str, language: str, fallback_language: str):
             language = fallback_language
     payload = {"text": text, "language": language}
     headers = {"Content-Type": "application/json"}
-    response = requests.post(f"{BASE_TTS_URL}/tts/", json=payload, headers=headers)
-    return AudioSegment.from_file(io.BytesIO(response.content), format="wav")
+    url = f"{BASE_TTS_URL}/tts"
+    response = requests.post(url, json=payload, headers=headers)
+    if response.status_code == 200:
+        return AudioSegment.from_file(io.BytesIO(response.content), format="wav")
+    else:
+        print(f"ERROR, response {response.status_code}, {response.content}")
 
 
 # interface - below 3 methods should be implemented for every other tts server
