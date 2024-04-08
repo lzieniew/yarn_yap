@@ -29,7 +29,7 @@ async def create_job(job_create: JobCreate):
     return {"id": str(result.id)}
 
 
-@app.get("/jobs/", response_model=List[Job])
+@app.get("/jobs/")
 async def list_jobs():
     all_jobs = await Job.find().to_list()
     return {"number_of_jobs": len(all_jobs), "jobs": all_jobs}
