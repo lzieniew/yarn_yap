@@ -12,6 +12,7 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   10. [x] Use the voice generating service in background worker, also implement mechanism for splitting the text into chunks which can be processed at once
   11. [x] implement handling inactivity of the text generator container
   12. [x] implement recognising the whole text language as fallback
+  13. [ ] add some alternative generation engine with lower requirements for development purposes, but also for less powerful machines
   13. [ ] Implement cleaning mechanism in the background worker
   14. [ ] Write tests for cleaning
   15. [ ] Check if there is some way to clean already generated audio from those strange glitches
@@ -29,7 +30,7 @@ Other things todo:
   - [x] optimize Dockerfiles, so change in shared_components won't trigger reinstallation of all requirements
   - [x] setup tests with mongodb
   - [x] implement saving elapsed time in Job model, and also somehow printing it in every call
-  - [ ] Fix issue with now generating text "Ale jajo!" xD It's detected as 'sl', so maybe it's better to detect text language as a whole - but then single sentences in other languages will not work
+  - [x] Fix issue with now generating text "Ale jajo!" xD It's detected as 'sl', so maybe it's better to detect text language as a whole - but then single sentences in other languages will not work
   - [x] make initialization only once at text_to_speech service startup, instead every time the endpoint is called, and measure difference
   - [x] Sanitazed text should be kept in mongo as table of sentences
   - [x] Add progress field for generating - it will be useful for long texts
@@ -38,12 +39,13 @@ Other things todo:
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
   - [ ] Try to implement some resuming mechanism (very useful for long jobs), maybe other collection in mongo with saving small files - it can even be deleted after job is done. The key might be job_id + index of sentence
-  - [ ] ??? Implement automaticaly extracting sample voice from youtube link
   - [ ] Check and try to split long sentences into shorter ones (there are warnings that pl has 224 chars limit)
   - [ ] Improve sentence splitting, especially on text with a lot of extra dots (np. Pasta o spłuczce do kibla)
   - [ ] Fix error with duplicating jobs - maybe make different function for saving and upating
   - [ ] Fix progress in percent - right now it ignores skipped sentneces, and doesn't reach 100%
   - [ ] Write worker tests, create mock text_to_speech api for it
+  - [ ] Write integration tests - each one would have different text or url (in case of url the function fetching raw url will be mocked, to eliminate network calls in test) and I will check if the text was generated properly. They could also have "real mode", that wouldn not run on github pipeline and would actually generate audio, so I will be abel to listen to it after some bigger changes and check if it changed
+  - [ ] ??? Implement automaticaly extracting sample voice from youtube link
 
 Testing different TTS engines:
   - StyleTTS - current first choice, very fast, reasonable speed even on CPU only, good quality

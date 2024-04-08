@@ -41,6 +41,15 @@ async def delete_all_jobs():
     return {"message": "All jobs have been deleted."}
 
 
+@app.get("/jobs/{job_id}")
+async def get_job(job_id: str):
+    job = await Job.find_one(Job.id == ObjectId(job_id))
+
+    if job is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return {"job": job.model_dump()}
+
+
 @app.get("/jobs/{job_id}/audio")
 async def get_job_audio(job_id: str):
     job = await Job.find_one(Job.id == ObjectId(job_id))
