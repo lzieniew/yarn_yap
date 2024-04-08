@@ -61,7 +61,7 @@ async def get_job_audio(job_id: str):
 
 @app.delete("/jobs/{job_id}")
 async def delete_job(job_id: str):
-    Job.delete(Job.id == ObjectId(job_id))
+    return Job.delete(Job.id == ObjectId(job_id))
 
 
 @app.delete("/jobs")
