@@ -31,14 +31,8 @@ async def create_job(job_create: JobCreate):
 
 @app.get("/jobs/", response_model=List[Job])
 async def list_jobs():
-    return await Job.find().to_list()
-
-
-@app.delete("/jobs")
-async def delete_all_jobs():
-    # Delete all jobs from the database
-    await Job.delete_all()
-    return {"message": "All jobs have been deleted."}
+    all_jobs = await Job.find().to_list()
+    return {"number_of_jobs": len(all_jobs), "jobs": all_jobs}
 
 
 @app.get("/jobs/{job_id}")
@@ -63,3 +57,15 @@ async def get_job_audio(job_id: str):
         raise HTTPException(status_code=404, detail="Audio file not found")
 
     return FileResponse(audio_path)
+
+
+@app.delete("/jobs/{job_id}")
+async def delete_job(job_id: str):
+    Job.delete(Job.id == ObjectId(job_id))
+
+
+@app.delete("/jobs")
+async def delete_all_jobs():
+    # Delete all jobs from the database
+    await Job.delete_all()
+    return {"message": "All jobs have been deleted."}
