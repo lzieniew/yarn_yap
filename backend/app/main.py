@@ -1,6 +1,5 @@
 from contextlib import asynccontextmanager
 import os
-from typing import List
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException
 from starlette.responses import FileResponse
