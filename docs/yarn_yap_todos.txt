@@ -14,6 +14,7 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   12. [x] implement recognising the whole text language as fallback
   13. [ ] add some alternative generation engine with lower requirements for development purposes, but also for less powerful machines
   13. [ ] Implement cleaning mechanism in the background worker
+  14. [ ] Implement caching mechanism, and by doing this also add some info to Job and maybe child model, like the method of generation (CPU vs GPU), generation time for every chunk, actual data etc. (to be determined if the generation data should go inside Job model, as children of Job, or to different database)
   14. [ ] Write tests for cleaning
   15. [ ] Check if there is some way to clean already generated audio from those strange glitches
   16. [ ] Create the fetching mechanism
