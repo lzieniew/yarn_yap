@@ -1,0 +1,5 @@
+The list of screens:
+  1. Main screen, should have a list of jobs with progress shown, showing both done and in progress jobs
+  2. Add job screen (optionally as popup on main screen) - adding text or url as a Job, should have basic sanitization of raw_text
+  3. Job details screen - should show details about Job, on chunk basis
+    - editing job - it's more difficult, but there could be option to edit job, by editing text - it would have to trigger regenerating the changed parts and "gluing" the output file again, this time with changed audio for those parts - it requires the caching mechanism
