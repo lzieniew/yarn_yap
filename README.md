@@ -8,15 +8,17 @@ A simple tool for automatically converting online articles and Reddit threads in
 
 # What is YarnYap?
 
-It's an easy to deploy web app that makes it easy and convinient to generate high quality voice reading the supplied text, for example articles.
+It's an easy to deploy and self host web app that makes it convinient to generate high quality voice reading the supplied text, for example online articles, reddit threads, and even ebooks.
 It runs entirely on the user machine, the best results are achieved using the nvidia GPU, but it also supports running on CPU only - it's slower that way, but it can run on practically every hardware.
-It's usable even on slower hardware, thanks to built in mechanism of job queue - user can upload a lot of text at once, and it will be automatically processed and available to download after some time. There will be even an option to host main part of the app and voice generating part of the app on separate machines, and the main part of the app will be waiting for generating device to become online
+It's usable even on slower hardware without GPU, thanks to built in mechanism of job queue - user can upload a lot of text at once, and it will be automatically processed and available to download after some time. There will be even an option to host main part of the app and voice generating part of the app on separate machines, and the main part of the app will be waiting for generating device to become online
+There also will be an option to edit part of the text by user, without regenerating the whole text
 
 # Features
   - High quality voice generation
   - Convenient UI, allowing user to easily upload text, track the progress and download generated voice files
   - Easy to deploy, just one docker-compose command
   - Queue mechanism, especially useful on slower machines where the generation process can be longer
+  - Ability to change part of the already generated text, which will result in regenerating only changed sentences 
 
 ## Architecture:
   - There will be multiple voice generating agents in use
