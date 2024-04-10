@@ -2,3 +2,5 @@ fastapi
 uvicorn
 python-dotenv
 TTS
+toml
+beanie
