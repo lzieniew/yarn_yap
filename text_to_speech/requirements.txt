@@ -4,3 +4,4 @@ python-dotenv
 TTS
 toml
 beanie
+edge-tts

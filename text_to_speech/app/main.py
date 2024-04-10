@@ -32,7 +32,7 @@ def run_generation(text: str, language: str) -> str:
 
 @app.get("/ready")
 async def readiness_check():
-    return {"ready": tts is not None}
+    return {"ready": tts_module.ready(tts)}
 
 
 @app.get("/languages")

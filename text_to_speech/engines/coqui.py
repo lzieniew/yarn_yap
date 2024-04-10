@@ -10,6 +10,10 @@ def initialize():
     return TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)
 
 
+def ready(tts: TTS):
+    return tts is not None
+
+
 def generate(text: str, language: str, tts: TTS):
     file_path = "/app/text_to_speech/generated_files/output.wav"
     tts.tts_to_file(
