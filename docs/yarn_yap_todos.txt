@@ -12,7 +12,7 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   10. [x] Use the voice generating service in background worker, also implement mechanism for splitting the text into chunks which can be processed at once
   11. [x] implement handling inactivity of the text generator container
   12. [x] implement recognising the whole text language as fallback
-  13. [in progress, already added config option] add some alternative generation engine with lower requirements for development purposes, but also for less powerful machines
+  13. [x] add some alternative generation engine with lower requirements for development purposes, but also for less powerful machines
   13. [ ] Implement cleaning mechanism in the background worker
   14. [ ] Implement caching mechanism, and by doing this also add some info to Job and maybe child model, like the method of generation (CPU vs GPU), generation time for every chunk, actual data etc. (to be determined if the generation data should go inside Job model, as children of Job, or to different database)
   14. [ ] Write tests for cleaning
@@ -37,6 +37,7 @@ Other things todo:
   - [x] Add progress field for generating - it will be useful for long texts
   - [x] Fix error and make the process resistant to errors
   - [x] fix error with accpeting the license
+  - [ ] fix the format returned by edge_tts
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
   - [ ] Try to implement some resuming mechanism (very useful for long jobs), maybe other collection in mongo with saving small files - it can even be deleted after job is done. The key might be job_id + index of sentence
