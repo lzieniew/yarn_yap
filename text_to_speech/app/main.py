@@ -2,7 +2,6 @@ from contextlib import asynccontextmanager
 from time import time
 from fastapi import Body, FastAPI, HTTPException
 from fastapi.responses import FileResponse
-from starlette.background import BackgroundTasks
 from shared_components.config import get_tts_engine
 import importlib
 
@@ -24,7 +23,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-def run_generation(text: str, language: str, background_tasks: BackgroundTasks) -> str:
+def run_generation(text: str, language: str) -> str:
     start_time = time()
     file_path = tts_module.generate(text, language, tts)
     print(f"Whole generation of text of length {len(text)} took {time() - start_time}")
@@ -43,7 +42,6 @@ async def supported_languages():
 
 @app.post("/tts/")
 async def generate_audio(
-    background_tasks: BackgroundTasks,
     text: str = Body(..., example="Text to generate by model"),
     language: str = Body(..., example="en"),
 ):
@@ -51,7 +49,7 @@ async def generate_audio(
         f"Starting generation for text with {len(text)} characters, language {language}, text: {text}"
     )
     try:
-        path_to_audio_file = run_generation(text, language, background_tasks)
+        path_to_audio_file = run_generation(text, language)
         return FileResponse(
             path=path_to_audio_file, media_type="audio/wav", filename="speech.wav"
         )

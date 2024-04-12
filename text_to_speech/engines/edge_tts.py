@@ -1,15 +1,6 @@
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 import threading
-from time import sleep
 import edge_tts
-
-
-import os
-
-import torch
-
-# from shared_components.utils import run_async
 
 
 language_to_voice = {"en": "en-GB-SoniaNeural", "pl": "pl-PL-MarekNeural"}
