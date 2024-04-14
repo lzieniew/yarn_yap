@@ -37,6 +37,7 @@ Other things todo:
   - [x] Add progress field for generating - it will be useful for long texts
   - [x] Fix error and make the process resistant to errors
   - [x] fix error with accpeting the license
+  - [ ] fix potential race with file saving in text to speech - add randomized file name and removing them after some time
   - [ ] fix the format returned by edge_tts
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
