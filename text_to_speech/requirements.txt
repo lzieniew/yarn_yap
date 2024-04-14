@@ -5,3 +5,4 @@ TTS
 toml
 beanie
 edge-tts
+pydub

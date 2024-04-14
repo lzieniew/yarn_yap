@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 import os
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException
-from starlette.responses import FileResponse
+from fastapi.responses import FileResponse
 from shared_components import JobStatus
 
 from shared_components import Job, JobCreate
@@ -55,7 +55,7 @@ async def get_job_audio(job_id: str):
     if not audio_path or not os.path.isfile(audio_path):
         raise HTTPException(status_code=404, detail="Audio file not found")
 
-    return FileResponse(audio_path)
+    return FileResponse(path=audio_path)
 
 
 @app.delete("/jobs/{job_id}")
