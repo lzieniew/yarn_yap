@@ -38,6 +38,7 @@ Other things todo:
   - [x] Fix error and make the process resistant to errors
   - [x] fix error with accpeting the license
   - [x] fix the format returned by edge_tts
+  - [ ] change the sanitizing static website at port 8080 to remove also " and other problematic characters
   - [ ] fix potential race with file saving in text to speech - add randomized file name and removing them after some time
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
