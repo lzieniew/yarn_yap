@@ -13,13 +13,13 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   11. [x] implement handling inactivity of the text generator container
   12. [x] implement recognising the whole text language as fallback
   13. [x] add some alternative generation engine with lower requirements for development purposes, but also for less powerful machines
-  13. [ ] Implement cleaning mechanism in the background worker
   14. [ ] Implement caching mechanism, and by doing this also add some info to Job and maybe child model, like the method of generation (CPU vs GPU), generation time for every chunk, actual data etc. (to be determined if the generation data should go inside Job model, as children of Job, or to different database)
-  14. [ ] Write tests for cleaning
-  15. [ ] Check if there is some way to clean already generated audio from those strange glitches
-  16. [ ] Create the fetching mechanism
-  17. [ ] Create a frontend in VUE js
-  18. [ ] Adapt fetching mechanism for Reddit
+  15. [ ] Implement cleaning mechanism in the background worker
+  16. [ ] Write tests for cleaning
+  17. [ ] Check if there is some way to clean already generated audio from those strange glitches
+  18. [ ] Create the fetching mechanism
+  19. [ ] Create a frontend in VUE js
+  20. [ ] Adapt fetching mechanism for Reddit
 
 
 Test sanitization and generation on this article: https://daniel.haxx.se/blog/2024/01/02/the-i-in-llm-stands-for-intelligence/)
@@ -42,11 +42,11 @@ Other things todo:
   - [ ] fix potential race with file saving in text to speech - add randomized file name and removing them after some time
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
-  - [ ] Try to implement some resuming mechanism (very useful for long jobs), maybe other collection in mongo with saving small files - it can even be deleted after job is done. The key might be job_id + index of sentence
+  - [ ] Try to implement some resuming mechanism (very useful for long jobs), maybe other collection in mongo with saving small files - it can even be deleted after job is done. The key might be job_id + index of sentence - almost the same as 14. point above
   - [ ] Check and try to split long sentences into shorter ones (there are warnings that pl has 224 chars limit)
-  - [ ] Improve sentence splitting, especially on text with a lot of extra dots (np. Pasta o spłuczce do kibla). It's important because tts generates random sounds when encountering dots
+  - [ ] Improve sentence splitting, especially on text with a lot of extra dots (np. Pasta o spłuczce do kibla). It's important because tts generates random sounds when encountering multiple dots
   - [ ] Fix error with duplicating jobs - maybe make different function for saving and upating
-  - [ ] Fix progress in percent - right now it ignores skipped sentneces, and doesn't reach 100%
+  - [ ] Fix progress in percent - right now it ignores skipped sentences, and doesn't reach 100%
   - [ ] Write worker tests, create mock text_to_speech api for it
   - [ ] Write integration tests - each one would have different text or url (in case of url the function fetching raw url will be mocked, to eliminate network calls in test) and I will check if the text was generated properly. They could also have "real mode", that wouldn not run on github pipeline and would actually generate audio, so I will be abel to listen to it after some bigger changes and check if it changed
   - [ ] ??? Implement automaticaly extracting sample voice from youtube link
