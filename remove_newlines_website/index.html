@@ -152,11 +152,13 @@
 <div id="toast" class="toast">Text copied to clipboard</div>
 
 <script>
-  function formatText() {
-    let text = document.getElementById('inputText').value;
-    text = text.replace(/\n/g, ' ').replace(/\.([^ ])/g, '. $1');
-    document.getElementById('outputField').value = text;
-  }
+function formatText() {
+  let text = document.getElementById('inputText').value;
+  text = text.replace(/\n/g, ' ')
+             .replace(/\.([^ ])/g, '. $1')
+             .replace(/['"]/g, '');
+  document.getElementById('outputField').value = text;
+}
 
   function copyToClipboard() {
     let outputField = document.getElementById('outputField');
