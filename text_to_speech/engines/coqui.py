@@ -18,7 +18,7 @@ def generate(text: str, language: str, tts: TTS):
     file_path = "/app/text_to_speech/generated_files/output.wav"
     tts.tts_to_file(
         text=text,
-        speaker_wav="/app/text_to_speech/voices/bezi.wav",
+        speaker_wav="/app/text_to_speech/voices/female.wav",
         language=language,
         file_path=file_path,
     )
