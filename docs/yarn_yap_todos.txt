@@ -56,4 +56,5 @@ Testing different TTS engines:
   - https://github.com/jasonppy/VoiceCraft - to check, hard to run but very good quality
   - coqui TTS - license is worse than for example StyleTTS, but it soudns good in polish, so maybe I will try and use it
   - https://github.com/metavoiceio/metavoice-src - podobno spoko, do wypróbowania
+  - https://github.com/netease-youdao/EmotiVoice - kolejny ciekawy, ale tylko angielski i chiński
   - RVC (based on VITS) or other speech to speech converter, it probably can improve quality
