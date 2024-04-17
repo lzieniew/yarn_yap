@@ -1,9 +1,10 @@
 from contextlib import asynccontextmanager
 from time import time
 from fastapi import Body, FastAPI, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import Response
 from shared_components.config import get_tts_engine
 import importlib
+from tempfile import NamedTemporaryFile
 
 tts_module = importlib.import_module(f"text_to_speech.engines.{get_tts_engine()}")
 
@@ -23,11 +24,10 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-def run_generation(text: str, language: str) -> str:
+def run_generation(text: str, language: str, file_path: str) -> str:
     start_time = time()
-    file_path = tts_module.generate(text, language, tts)
+    tts_module.generate(text, language, tts, file_path)
     print(f"Whole generation of text of length {len(text)} took {time() - start_time}")
-    return file_path
 
 
 @app.get("/ready")
@@ -49,9 +49,16 @@ async def generate_audio(
         f"Starting generation for text with {len(text)} characters, language {language}, text: {text}"
     )
     try:
-        path_to_audio_file = run_generation(text, language)
-        return FileResponse(
-            path=path_to_audio_file, media_type="audio/wav", filename="speech.wav"
-        )
+        with NamedTemporaryFile(delete=True) as temp_file:
+            file_path = temp_file.name
+            run_generation(text, language, file_path)
+            with open(file_path, "rb") as f:
+                audio_data = f.read()
+            # os.unlink(file_path)  # Ensure the temporary file is deleted.
+            return Response(
+                content=audio_data,
+                media_type="audio/wav",
+                headers={"Content-Disposition": "attachment;filename=speech.wav"},
+            )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

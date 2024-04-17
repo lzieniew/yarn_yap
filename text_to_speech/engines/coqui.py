@@ -14,8 +14,7 @@ def ready(tts: TTS):
     return tts is not None
 
 
-def generate(text: str, language: str, tts: TTS):
-    file_path = "/app/text_to_speech/generated_files/output.wav"
+def generate(text: str, language: str, tts: TTS, file_path: str):
     tts.tts_to_file(
         text=text,
         speaker_wav="/app/text_to_speech/voices/female.wav",
