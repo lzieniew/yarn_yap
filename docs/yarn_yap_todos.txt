@@ -39,6 +39,7 @@ Other things todo:
   - [x] fix error with accpeting the license
   - [x] fix the format returned by edge_tts
   - [x] change the sanitizing static website at port 8080 to remove also " and other problematic characters
+  - [ ] return data about generation from the generation endpoint - like time, method (CPU/GPU) etc - in preparation of caching feature which will at the same time save more info about the generation
   - [ ] fix potential race with file saving in text to speech - add randomized file name and removing them after some time
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
