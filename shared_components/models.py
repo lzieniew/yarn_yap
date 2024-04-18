@@ -6,10 +6,16 @@ from beanie import Document
 from .enums import JobStatus
 
 
+class Sentence(BaseModel):
+    text: str | None = None
+    generated: bool | False = False
+    generation_time: int | None = None
+
+
 class JobModel(BaseModel):
     url: str | None = None
     raw_text: str | None = None
-    sanitized_text: list[str] | None = None
+    sanitized_text: list[Sentence] | None = None
     text_language: str | None = None
     audio_path: str | None = None
     status: JobStatus
