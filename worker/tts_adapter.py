@@ -17,13 +17,13 @@ def check_server_ready() -> bool:
         return False
 
 
-def get_coqui_supported_languages() -> list[str]:
+def get_supported_languages() -> list[str]:
     response = requests.get(f"{BASE_TTS_URL}/languages")
     return response.json()["supported_languages"]
 
 
-def send_coqui_tts_request(text: str, language: str, fallback_language: str):
-    supported_languages = get_coqui_supported_languages()
+def send_tts_request(text: str, language: str, fallback_language: str):
+    supported_languages = get_supported_languages()
     if language not in supported_languages:
         if fallback_language not in supported_languages:
             print(
@@ -47,11 +47,8 @@ def send_coqui_tts_request(text: str, language: str, fallback_language: str):
         print(f"ERROR, response {response.status_code}, {response.content}")
 
 
-# interface - below 3 methods should be implemented for every other tts server
-
-
 def send_tts_request(text, language, fallback_language):
-    return send_coqui_tts_request(text, language, fallback_language)
+    return send_tts_request(text, language, fallback_language)
 
 
 def check_if_tts_active() -> bool:
@@ -59,4 +56,4 @@ def check_if_tts_active() -> bool:
 
 
 def get_supported_languages() -> list[str]:
-    return get_coqui_supported_languages()
+    return get_supported_languages()

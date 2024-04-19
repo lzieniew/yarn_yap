@@ -8,7 +8,7 @@ from .enums import JobStatus
 
 class Sentence(BaseModel):
     text: str | None = None
-    generated: bool | False = False
+    generated: bool | None = False
     generation_time: int | None = None
 
 
