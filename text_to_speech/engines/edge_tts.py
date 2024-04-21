@@ -20,29 +20,10 @@ def generate(text: str, language: str, tts, file_path: str) -> str:
     voice = language_to_voice[language]
     communicate = edge_tts.Communicate(text, voice)
 
-    done_event = threading.Event()
-
     # Using NamedTemporaryFile as a context manager to handle the temp mp3 file
     with NamedTemporaryFile(suffix=".mp3", delete=True) as temp_mp3_file:
         mp3_file_path = temp_mp3_file.name
-
-        def run_in_thread():
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-
-            async def async_task():
-                # Save output to the temporary mp3 file
-                await communicate.save(mp3_file_path)
-                # Signal that the task is done
-                done_event.set()
-
-            loop.run_until_complete(async_task())
-            loop.close()
-
-        thread = threading.Thread(target=run_in_thread)
-        thread.start()
-        done_event.wait()
-        thread.join()
+        communicate.sync_save(mp3_file_path)
 
         try:
             # Reading the temporary mp3 file

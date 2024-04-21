@@ -1,2 +1,2 @@
-tts_engine = "coqui"
-#tts_engine = "edge_tts"
+#tts_engine = "coqui"
+tts_engine = "edge_tts"

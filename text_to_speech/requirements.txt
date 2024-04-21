@@ -4,5 +4,5 @@ python-dotenv
 TTS
 toml
 beanie
-edge-tts
+git+https://github.com/lzieniew/edge-tts
 pydub
