@@ -35,6 +35,7 @@ services:
       - "7321:8000"
     volumes:
       - .:/app
+      - ./.models:/root/.local/share/tts/
     environment:
       - PYTHONUNBUFFERED=1
 

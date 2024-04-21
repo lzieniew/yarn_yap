@@ -54,11 +54,11 @@ async def generate_audio(
             run_generation(text, language, file_path)
             with open(file_path, "rb") as f:
                 audio_data = f.read()
-            # os.unlink(file_path)  # Ensure the temporary file is deleted.
             return Response(
                 content=audio_data,
                 media_type="audio/wav",
                 headers={"Content-Disposition": "attachment;filename=speech.wav"},
+                # headers={"Content-Disposition": "inline;filename=speech.wav"},
             )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

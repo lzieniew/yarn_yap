@@ -2,6 +2,9 @@ version: '3.8'
 services:
 
   text_to_speech:
+    build:
+      context: .
+      dockerfile: ./text_to_speech/Dockerfile_gpu
     deploy:
       resources:
         reservations:
