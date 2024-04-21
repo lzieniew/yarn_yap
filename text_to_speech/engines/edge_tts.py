@@ -23,7 +23,7 @@ def generate(text: str, language: str, tts, file_path: str) -> str:
     # Using NamedTemporaryFile as a context manager to handle the temp mp3 file
     with NamedTemporaryFile(suffix=".mp3", delete=True) as temp_mp3_file:
         mp3_file_path = temp_mp3_file.name
-        communicate.sync_save(mp3_file_path)
+        communicate.save_sync(mp3_file_path)
 
         try:
             # Reading the temporary mp3 file

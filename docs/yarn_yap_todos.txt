@@ -40,6 +40,7 @@ Other things todo:
   - [x] fix the format returned by edge_tts
   - [x] change the sanitizing static website at port 8080 to remove also " and other problematic characters
   - [x] fix potential race with file saving in text to speech - add randomized file name and removing them after some time
+  - [ ] make sure that the model is not redownloading every ??? (I don't know when redownloading occurs, find this out!)
   - [ ] change Job.audio_path to Job.audio_content - so there will be no temporary files in repo. In time the content will be moved into subjobs, so even in the case of audiobook there will be no long files that would be greater than mongo limit
   - [ ] return data about generation from the generation endpoint - like time, method (CPU/GPU) etc - in preparation of caching feature which will at the same time save more info about the generation
   - [ ] implement uploading own voices
