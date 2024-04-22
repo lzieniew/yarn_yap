@@ -10,6 +10,7 @@ class Sentence(BaseModel):
     text: str | None = None
     generated: bool | None = False
     generation_time: int | None = None
+    language: str | None = None
 
 
 class JobModel(BaseModel):

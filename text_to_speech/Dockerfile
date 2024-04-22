@@ -1,5 +1,4 @@
-FROM pytorch/pytorch:2.2.2-cuda12.1-cudnn8-runtime
-
+FROM python:3.11
 
 # Install Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
