@@ -1,12 +1,16 @@
 from contextlib import asynccontextmanager
+from io import BytesIO
+import json
 import os
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
+from starlette.responses import StreamingResponse
 from shared_components import JobStatus
 
 from shared_components import Job, JobCreate
 from shared_components.db_init import init_db
+from shared_components.models import Sentence
 
 
 @asynccontextmanager
@@ -28,10 +32,14 @@ async def create_job(job_create: JobCreate):
     return {"id": str(result.id)}
 
 
+from fastapi.encoders import jsonable_encoder
+
+
 @app.get("/jobs/")
 async def list_jobs():
     all_jobs = await Job.find().to_list()
-    return {"number_of_jobs": len(all_jobs), "jobs": all_jobs}
+    encoded_jobs = jsonable_encoder(all_jobs)
+    return {"number_of_jobs": len(all_jobs), "jobs": encoded_jobs}
 
 
 @app.get("/jobs/{job_id}")
@@ -50,12 +58,19 @@ async def get_job_audio(job_id: str):
     if job is None:
         raise HTTPException(status_code=404, detail="Job not found")
 
-    audio_path = job.audio_path
+    combined_audio_data = bytearray()
+    for sentence in job.sanitized_text:
+        if sentence.audio_bytes:
+            combined_audio_data.extend(sentence.audio_bytes)
 
-    if not audio_path or not os.path.isfile(audio_path):
-        raise HTTPException(status_code=404, detail="Audio file not found")
+    if len(combined_audio_data) == 0:
+        raise HTTPException(status_code=404, detail="No audio data available")
 
-    return FileResponse(path=audio_path)
+    # Create a BytesIO object from the combined audio data
+    audio_bytes = BytesIO(combined_audio_data)
+
+    # Return the audio data as a response
+    return StreamingResponse(content=audio_bytes, media_type="audio/wav")
 
 
 @app.delete("/jobs/{job_id}")

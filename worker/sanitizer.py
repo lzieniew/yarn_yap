@@ -2,6 +2,7 @@ from langdetect.lang_detect_exception import LangDetectException
 import nltk
 
 from shared_components.models import Sentence
+from shared_components.utils import run_async
 
 nltk.download("punkt")
 from nltk.tokenize import sent_tokenize
@@ -22,5 +23,6 @@ def sanitize(text: str) -> list[Sentence]:
             # if langdetect cant recognize language it means the sentence doesn't have any worth generating words, skipping
             continue
         sentence = Sentence(text=text_sentence, language=language, generated=False)
+        run_async(sentence.create())
         sentences.append(sentence)
     return sentences

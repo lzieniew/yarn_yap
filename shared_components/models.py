@@ -6,11 +6,22 @@ from beanie import Document
 from .enums import JobStatus
 
 
-class Sentence(BaseModel):
+class SentenceModel(BaseModel):
     text: str | None = None
     generated: bool | None = False
     generation_time: int | None = None
     language: str | None = None
+    audio_data: bytes | None = None  # Add this field to store audio bytes
+
+    def dict(self, *args, **kwargs):
+        sentence_dict = super().dict(*args, **kwargs)
+        if self.audio_data:
+            sentence_dict["audio_data"] = b64encode(self.audio_data).decode("utf-8")
+        return sentence_dict
+
+
+class Sentence(Document, SentenceModel):
+    pass
 
 
 class JobModel(BaseModel):
@@ -18,7 +29,6 @@ class JobModel(BaseModel):
     raw_text: str | None = None
     sanitized_text: list[Sentence] | None = None
     language: str | None = None
-    audio_path: str | None = None
     status: JobStatus
     progress_percent: str | None = None
     generation_time: int | None = None

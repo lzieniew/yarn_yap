@@ -29,7 +29,7 @@ def process_job(job: Job):
         if check_if_tts_active():
             start_time = time.time()  # Record start time
             get_supported_languages()
-            job.audio_path = generate(job)
+            generate(job)
             elapsed_time = time.time() - start_time
             job.generation_time = int(elapsed_time)
             job.status = JobStatus.GENERATED

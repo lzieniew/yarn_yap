@@ -1,6 +1,4 @@
-from langdetect import detect, LangDetectException
-
-from shared_components.models import Job, Sentence
+from shared_components.models import Job
 from shared_components.utils import run_async
 
 from worker.tts_adapter import LanguageNotSupportedException, send_tts_request
@@ -16,7 +14,6 @@ def generate(job: Job):
     sentences_count = len(sentences)
     processed_sentences_count = 0
     print(f"Generating text for {sentences_count} sentences")
-    segments = []
     for sentence in sentences:
         print(
             f"Starting generating sentence {sentence}, language {sentence.language}, fallback language {job.language}"
@@ -27,7 +24,8 @@ def generate(job: Job):
                 language=sentence.language,
                 fallback_language=job.language,
             )
-            segments.append(audio_data)
+            sentence.audio_data = audio_data.raw_data
+            run_async(sentence.save())
         except LanguageNotSupportedException as ex:
             # neither sentence language or whole text language are supported, skipping
             print(f"Error {ex}")
@@ -38,7 +36,4 @@ def generate(job: Job):
             all_sentences=sentences_count,
             job=job,
         )
-    combined = sum(segments)
-    output_filename = f"/app/{job.id}.wav"
-    combined.export(output_filename, format="wav")
-    return output_filename
+    return sentences
