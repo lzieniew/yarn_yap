@@ -11,18 +11,21 @@ def update_progress(processed_sentences: int, all_sentences: int, job: Job):
     run_async(job.save())
 
 
-def generate(sentences: list[Sentence], job: Job):
+def generate(job: Job):
+    sentences = job.sanitized_text
     sentences_count = len(sentences)
     processed_sentences_count = 0
     print(f"Generating text for {sentences_count} sentences")
     segments = []
     for sentence in sentences:
         print(
-            f"Starting generating sentence {sentence}, language {language}, fallback language {job.text_language}"
+            f"Starting generating sentence {sentence}, language {sentence.language}, fallback language {job.language}"
         )
         try:
             audio_data = send_tts_request(
-                sentence, language=language, fallback_language=job.text_language
+                sentence.text,
+                language=sentence.language,
+                fallback_language=job.language,
             )
             segments.append(audio_data)
         except LanguageNotSupportedException as ex:

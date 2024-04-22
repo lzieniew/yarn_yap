@@ -17,7 +17,7 @@ class JobModel(BaseModel):
     url: str | None = None
     raw_text: str | None = None
     sanitized_text: list[Sentence] | None = None
-    text_language: str | None = None
+    language: str | None = None
     audio_path: str | None = None
     status: JobStatus
     progress_percent: str | None = None

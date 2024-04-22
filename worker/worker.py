@@ -20,7 +20,7 @@ def process_job(job: Job):
         run_async(job.save())
 
     if job.status == JobStatus.FETCHED:
-        job.text_language = detect_whole_text_language(job.raw_text)
+        job.language = detect_whole_text_language(job.raw_text)
         job.sanitized_text = sanitize(job.raw_text)
         job.status = JobStatus.SANITIZED
         run_async(job.save())
@@ -29,7 +29,7 @@ def process_job(job: Job):
         if check_if_tts_active():
             start_time = time.time()  # Record start time
             get_supported_languages()
-            job.audio_path = generate(job.sanitized_text, job)
+            job.audio_path = generate(job)
             elapsed_time = time.time() - start_time
             job.generation_time = int(elapsed_time)
             job.status = JobStatus.GENERATED

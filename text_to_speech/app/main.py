@@ -40,16 +40,16 @@ async def supported_languages():
     return tts_module.get_supported_languages()
 
 
-@app.post("/tts/")
+@app.get("/tts")
 async def generate_audio(
-    text: str = Body(..., example="Text to generate by model"),
-    language: str = Body(..., example="en"),
+    text: str = "Text to generate by model",
+    language: str = "en",
 ):
     print(
         f"Starting generation for text with {len(text)} characters, language {language}, text: {text}"
     )
     try:
-        with NamedTemporaryFile(delete=True) as temp_file:
+        with NamedTemporaryFile(delete=False) as temp_file:
             file_path = temp_file.name
             run_generation(text, language, file_path)
             with open(file_path, "rb") as f:
@@ -57,8 +57,7 @@ async def generate_audio(
             return Response(
                 content=audio_data,
                 media_type="audio/wav",
-                headers={"Content-Disposition": "attachment;filename=speech.wav"},
-                # headers={"Content-Disposition": "inline;filename=speech.wav"},
+                headers={"Content-Disposition": "inline;filename=speech.wav"},
             )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

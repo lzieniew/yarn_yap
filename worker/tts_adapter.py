@@ -10,7 +10,7 @@ class LanguageNotSupportedException(Exception):
     pass
 
 
-def check_server_ready() -> bool:
+def check_if_tts_active() -> bool:
     try:
         return requests.get(f"{BASE_TTS_URL}/ready").json()["ready"]
     except requests.exceptions.ConnectionError:
@@ -40,20 +40,8 @@ def send_tts_request(text: str, language: str, fallback_language: str):
     payload = {"text": text, "language": language}
     headers = {"Content-Type": "application/json"}
     url = f"{BASE_TTS_URL}/tts"
-    response = requests.post(url, json=payload, headers=headers)
+    response = requests.get(url, params=payload, headers=headers)
     if response.status_code == 200:
         return AudioSegment.from_file(io.BytesIO(response.content), format="wav")
     else:
         print(f"ERROR, response {response.status_code}, {response.content}")
-
-
-def send_tts_request(text, language, fallback_language):
-    return send_tts_request(text, language, fallback_language)
-
-
-def check_if_tts_active() -> bool:
-    return check_server_ready()
-
-
-def get_supported_languages() -> list[str]:
-    return get_supported_languages()
