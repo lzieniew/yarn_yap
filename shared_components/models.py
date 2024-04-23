@@ -1,5 +1,6 @@
-from typing import Dict, Optional
+from typing import Dict
 from typing_extensions import Any
+from bson.objectid import ObjectId
 from pydantic import BaseModel, Field, model_validator
 from beanie import Document
 
@@ -11,7 +12,7 @@ class SentenceModel(BaseModel):
     generated: bool | None = False
     generation_time: int | None = None
     language: str | None = None
-    audio_data: bytes | None = None  # Add this field to store audio bytes
+    audio_file_id: ObjectId = Field(None, alias="audio_file_id")
 
     def dict(self, *args, **kwargs):
         sentence_dict = super().dict(*args, **kwargs)

@@ -1,7 +1,6 @@
 from contextlib import asynccontextmanager
 from io import BytesIO
-import json
-import os
+import base64
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
@@ -10,7 +9,6 @@ from shared_components import JobStatus
 
 from shared_components import Job, JobCreate
 from shared_components.db_init import init_db
-from shared_components.models import Sentence
 
 
 @asynccontextmanager
@@ -60,8 +58,9 @@ async def get_job_audio(job_id: str):
 
     combined_audio_data = bytearray()
     for sentence in job.sanitized_text:
-        if sentence.audio_bytes:
-            combined_audio_data.extend(sentence.audio_bytes)
+        if sentence.audio_data:
+            audio_data = base64.b64decode(sentence.audio_data)
+            combined_audio_data.extend(audio_data)
 
     if len(combined_audio_data) == 0:
         raise HTTPException(status_code=404, detail="No audio data available")

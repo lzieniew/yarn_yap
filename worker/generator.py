@@ -1,3 +1,5 @@
+import base64
+
 from shared_components.models import Job
 from shared_components.utils import run_async
 
@@ -24,7 +26,8 @@ def generate(job: Job):
                 language=sentence.language,
                 fallback_language=job.language,
             )
-            sentence.audio_data = audio_data.raw_data
+            audio_data_base64 = base64.b64encode(audio_data.raw_data).decode("utf-8")
+            sentence.audio_data = audio_data_base64
             run_async(sentence.save())
         except LanguageNotSupportedException as ex:
             # neither sentence language or whole text language are supported, skipping
