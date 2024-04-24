@@ -15,7 +15,7 @@ class SentenceModel(BaseModel):
     audio_file_id: ObjectId = Field(None, alias="audio_file_id")
 
     def dict(self, *args, **kwargs):
-        sentence_dict = super().dict(*args, **kwargs)
+        sentence_dict = super().model_dump(*args, **kwargs)
         if self.audio_data:
             sentence_dict["audio_data"] = b64encode(self.audio_data).decode("utf-8")
         return sentence_dict
