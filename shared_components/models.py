@@ -1,7 +1,4 @@
-from typing import Dict
-from typing_extensions import Any
-from bson.objectid import ObjectId
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, model_validator
 from beanie import Document
 
 from .enums import JobStatus
@@ -12,13 +9,7 @@ class SentenceModel(BaseModel):
     generated: bool | None = False
     generation_time: int | None = None
     language: str | None = None
-    audio_file_id: ObjectId = Field(None, alias="audio_file_id")
-
-    def dict(self, *args, **kwargs):
-        sentence_dict = super().model_dump(*args, **kwargs)
-        if self.audio_data:
-            sentence_dict["audio_data"] = b64encode(self.audio_data).decode("utf-8")
-        return sentence_dict
+    audio_data: bytes | None = None
 
 
 class Sentence(Document, SentenceModel):

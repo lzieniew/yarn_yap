@@ -57,16 +57,19 @@ async def get_job_audio(job_id: str):
         raise HTTPException(status_code=404, detail="Job not found")
 
     combined_audio_data = bytearray()
-    for sentence in job.sanitized_text:
-        if sentence.audio_data:
-            audio_data = base64.b64decode(sentence.audio_data)
-            combined_audio_data.extend(audio_data)
+    audio_data = base64.b64decode(job.sanitized_text[0].audio_data)
+    audio_bytes = BytesIO(audio_data)
+    audio_bytes.seek(0)
+    # for sentence in job.sanitized_text:
+    #     if sentence.audio_data:
+    #         audio_data = base64.b64decode(sentence.audio_data)
+    #         combined_audio_data.extend(audio_data)
 
     if len(combined_audio_data) == 0:
         raise HTTPException(status_code=404, detail="No audio data available")
 
     # Create a BytesIO object from the combined audio data
-    audio_bytes = BytesIO(combined_audio_data)
+    # audio_bytes = BytesIO(combined_audio_data)
 
     # Return the audio data as a response
     return StreamingResponse(content=audio_bytes, media_type="audio/wav")
@@ -74,7 +77,9 @@ async def get_job_audio(job_id: str):
 
 @app.delete("/jobs/{job_id}")
 async def delete_job(job_id: str):
-    return Job.delete(Job.id == ObjectId(job_id))
+    job = await Job.find_one(Job.id == ObjectId(job_id))
+    job.delete()
+    return {"message": f"Job {job_id} was deleted."}
 
 
 @app.delete("/jobs")
