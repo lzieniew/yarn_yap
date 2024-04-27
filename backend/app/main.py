@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from io import BytesIO
 import base64
+from beanie.odm.documents import MergeStrategy
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
@@ -35,11 +36,7 @@ async def create_job(job_create: JobCreate):
 
 @app.get("/jobs/")
 async def list_jobs():
-    all_jobs = await Job.find().to_list()
-    for job in all_jobs:
-        fetched_sentences_info = await job.fetch_sentences_info()
-        job.sentences = fetched_sentences_info
-
+    all_jobs = await Job.find(fetch_links=True).to_list()
     return {"number_of_jobs": len(all_jobs), "jobs": all_jobs}
 
 
@@ -49,13 +46,33 @@ async def get_job(job_id: str):
 
     if job is None:
         raise HTTPException(status_code=404, detail="Job not found")
-    job.sentences = job.fetch_sentences_info()
     return {"job": job.model_dump()}
+
+
+@app.get("/jobs/{job_id}/sentences")
+async def get_job_sentences(job_id: str):
+    job = await Job.find_one(Job.id == ObjectId(job_id), fetch_links=True)
+    sentences = job.sentences
+    all_sentences = []
+    for sentence in sentences:
+        sentence.sync(merge_strategy=MergeStrategy.remote)
+        sentence_data = sentence.model_dump()
+        audio_data = sentence_data.pop("audio_data")
+        sentence_data["audio_data_summary"] = (
+            f"Audio data of length: {len(audio_data)}"
+            if audio_data
+            else "No audio data"
+        )
+        all_sentences.append(sentence_data)
+
+    if job is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return {"number_of_sentences": len(sentences), "sentences": all_sentences}
 
 
 @app.get("/jobs/{job_id}/audio")
 async def get_job_audio(job_id: str):
-    job = await Job.find_one(Job.id == ObjectId(job_id))
+    job = await Job.find_one(Job.id == ObjectId(job_id), fetch_links=True)
 
     if job is None:
         raise HTTPException(status_code=404, detail="Job not found")
@@ -65,8 +82,8 @@ async def get_job_audio(job_id: str):
 
     combined_audio = None
 
-    for sentence_link in job.sentences:
-        sentence = await sentence_link.fetch()
+    for sentence in job.sentences:
+        sentence.sync(merge_strategy=MergeStrategy.remote)
         if sentence.audio_data:
             audio_data = base64.b64decode(sentence.audio_data)
             audio_segment = AudioSegment.from_wav(BytesIO(audio_data))

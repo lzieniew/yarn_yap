@@ -39,7 +39,9 @@ def process_job(job: Job):
 
 
 def process_jobs():
-    jobs = run_async(Job.find(Job.status != JobStatus.GENERATED).to_list())
+    jobs = run_async(
+        Job.find(Job.status != JobStatus.GENERATED, fetch_links=True).to_list()
+    )
     print(f"There are {len(jobs)} jobs to process")
     for job in jobs:
         process_job(job)

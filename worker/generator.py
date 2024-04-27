@@ -1,4 +1,6 @@
 import base64
+import time
+from beanie.odm.fields import WriteRules
 from bson import ObjectId
 
 from shared_components.models import Job, Sentence
@@ -18,24 +20,22 @@ def generate(job: Job):
     sentences_count = len(sentences)
     processed_sentences_count = 0
     print(f"Generating text for {sentences_count} sentences")
-    for sentence_link in sentences:
-        sentence = run_async(sentence_link.fetch())
-        print(type(sentence))
+    for sentence in sentences:
         print(
             f"Starting generating sentence {sentence}, language {sentence.language}, fallback language {job.language}"
         )
         try:
+            start_time = time.time()
             audio_data = send_tts_request(
                 sentence.text,
                 language=sentence.language,
                 fallback_language=job.language,
             )
+            sentence.generation_time = int(time.time() - start_time)
             audio_bytes = audio_data.export(format="wav").read()
             audio_data_base64 = base64.b64encode(audio_bytes).decode("utf-8")
             sentence.audio_data = audio_data_base64
-            print(
-                f"Saving generated audio to sentence {sentence.text}, content length {len(audio_data_base64)}"
-            )
+            sentence.generated = True
             run_async(sentence.save())
         except LanguageNotSupportedException as ex:
             # neither sentence language or whole text language are supported, skipping
