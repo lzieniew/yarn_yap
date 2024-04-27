@@ -48,7 +48,7 @@ class JobModel(BaseModel):
                 {"_id": {"$in": self.sanitized_text}}
             ).to_list()
             return f"{len(sentences)} sentences"
-        return f"No sentences"
+        return "No sentences"
 
 
 class Job(Document, JobModel):

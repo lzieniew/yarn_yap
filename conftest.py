@@ -5,7 +5,7 @@ import pytest
 from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError, ConnectionFailure
 import docker
-from shared_components.models import Job
+from shared_components.models import Job, Sentence
 
 from shared_components.utils import run_async
 
@@ -53,7 +53,7 @@ def mongo_db():
     run_async(
         init_beanie(
             database=AsyncIOMotorClient("mongodb://localhost:27018").test_db,
-            document_models=[Job],
+            document_models=[Job, Sentence],
         )
     )
 
