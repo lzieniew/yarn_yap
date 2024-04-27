@@ -1,3 +1,4 @@
+from beanie.odm.fields import PydanticObjectId
 from langdetect.lang_detect_exception import LangDetectException
 import nltk
 
@@ -13,7 +14,7 @@ def detect_whole_text_language(text: str):
     return detect(text)
 
 
-def sanitize(text: str) -> list[Sentence]:
+def sanitize(text: str) -> list[PydanticObjectId]:
     sentences = []
     text_sentences = sent_tokenize(text)
     for text_sentence in text_sentences:
@@ -25,4 +26,5 @@ def sanitize(text: str) -> list[Sentence]:
         sentence = Sentence(text=text_sentence, language=language, generated=False)
         run_async(sentence.create())
         sentences.append(sentence)
-    return sentences
+    sentences_ids = [sentence.id for sentence in sentences]
+    return sentences_ids

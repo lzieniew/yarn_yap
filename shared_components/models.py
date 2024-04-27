@@ -1,3 +1,4 @@
+from beanie.odm.fields import PydanticObjectId
 from pydantic import BaseModel, model_validator
 from beanie import Document
 
@@ -9,7 +10,13 @@ class SentenceModel(BaseModel):
     generated: bool | None = False
     generation_time: int | None = None
     language: str | None = None
-    audio_data: bytes | None = None
+    audio_data: str | None = None
+
+    @property
+    def audio_data_length(self) -> int:
+        if self.audio_data:
+            return len(self.audio_data)
+        return 0
 
 
 class Sentence(Document, SentenceModel):
@@ -19,11 +26,29 @@ class Sentence(Document, SentenceModel):
 class JobModel(BaseModel):
     url: str | None = None
     raw_text: str | None = None
-    sanitized_text: list[Sentence] | None = None
+    sanitized_text: list[PydanticObjectId] | None = None
     language: str | None = None
     status: JobStatus
     progress_percent: str | None = None
     generation_time: int | None = None
+
+    async def fetch_sentences(self):
+        if self.sanitized_text:
+            # Pass filter as a dictionary
+            sentences = await Sentence.find(
+                {"_id": {"$in": self.sanitized_text}}
+            ).to_list()
+            return sentences
+        return []
+
+    async def fetch_sentences_info(self):
+        if self.sanitized_text:
+            # Pass filter as a dictionary
+            sentences = await Sentence.find(
+                {"_id": {"$in": self.sanitized_text}}
+            ).to_list()
+            return f"{len(sentences)} sentences"
+        return f"No sentences"
 
 
 class Job(Document, JobModel):

@@ -4,3 +4,4 @@ motor
 python-dotenv
 beanie
 pymongo
+pydub

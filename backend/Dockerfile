@@ -2,6 +2,8 @@
 
 FROM python:3.12
 
+RUN apt-get update && apt-get install -y ffmpeg
+
 WORKDIR /app
 
 COPY backend/requirements.txt /app/requirements.txt

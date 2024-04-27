@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from time import time
-from fastapi import Body, FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import Response
 from shared_components.config import get_tts_engine
 import importlib
