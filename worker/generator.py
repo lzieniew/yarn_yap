@@ -13,12 +13,14 @@ def update_progress(processed_sentences: int, all_sentences: int, job: Job):
 
 
 def generate(job: Job):
-    sentences = job.sanitized_text
+    run_async(job.fetch_all_links())
+    sentences = job.sentences
     sentences_count = len(sentences)
     processed_sentences_count = 0
     print(f"Generating text for {sentences_count} sentences")
-    for sentence_id in sentences:
-        sentence = run_async(Sentence.find_one(Sentence.id == ObjectId(sentence_id)))
+    for sentence_link in sentences:
+        sentence = run_async(sentence_link.fetch())
+        print(type(sentence))
         print(
             f"Starting generating sentence {sentence}, language {sentence.language}, fallback language {job.language}"
         )

@@ -4,7 +4,7 @@ from shared_components.db_init import init_db
 from shared_components.enums import JobStatus
 from worker.fetcher import fetch_url
 from worker.generator import generate
-from worker.sanitizer import detect_whole_text_language, sanitize
+from worker.splitter import detect_whole_text_language, split_into_sentences
 from shared_components.utils import run_async
 from worker.tts_adapter import check_if_tts_active, get_supported_languages
 
@@ -21,7 +21,7 @@ def process_job(job: Job):
 
     if job.status == JobStatus.FETCHED:
         job.language = detect_whole_text_language(job.raw_text)
-        job.sanitized_text = sanitize(job.raw_text)
+        job.sentences = split_into_sentences(job.raw_text)
         job.status = JobStatus.SANITIZED
         run_async(job.save())
 

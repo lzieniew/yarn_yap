@@ -37,6 +37,7 @@ services:
       - .:/app
       # so the model will not be redownloaded constantly
       - ./.models:/root/.local/share/tts/
+      - ./.edge_nltk_data:/root/nltk_data/
     environment:
       - PYTHONUNBUFFERED=1
 

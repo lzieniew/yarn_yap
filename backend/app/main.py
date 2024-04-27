@@ -27,7 +27,7 @@ app = FastAPI(lifespan=lifespan)
 async def create_job(job_create: JobCreate):
     job_data = job_create.model_dump()
     status = JobStatus.CREATED if job_data["url"] else JobStatus.FETCHED
-    job = Job(**job_data, sanitized_text=None, status=status)
+    job = Job(**job_data, sentences=None, status=status)
 
     result = await job.create()
     return {"id": str(result.id)}
@@ -38,7 +38,7 @@ async def list_jobs():
     all_jobs = await Job.find().to_list()
     for job in all_jobs:
         fetched_sentences_info = await job.fetch_sentences_info()
-        job.sanitized_text = fetched_sentences_info
+        job.sentences = fetched_sentences_info
 
     return {"number_of_jobs": len(all_jobs), "jobs": all_jobs}
 
@@ -49,7 +49,7 @@ async def get_job(job_id: str):
 
     if job is None:
         raise HTTPException(status_code=404, detail="Job not found")
-    job.sanitized_text = job.fetch_sentences_info()
+    job.sentences = job.fetch_sentences_info()
     return {"job": job.model_dump()}
 
 
@@ -60,13 +60,13 @@ async def get_job_audio(job_id: str):
     if job is None:
         raise HTTPException(status_code=404, detail="Job not found")
 
-    if len(job.sanitized_text) == 0:
+    if len(job.sentences) == 0:
         raise HTTPException(status_code=404, detail="No audio data available")
 
     combined_audio = None
 
-    for sentence_id in job.sanitized_text:
-        sentence = await Sentence.find_one(Sentence.id == ObjectId(sentence_id))
+    for sentence_link in job.sentences:
+        sentence = await sentence_link.fetch()
         if sentence.audio_data:
             audio_data = base64.b64decode(sentence.audio_data)
             audio_segment = AudioSegment.from_wav(BytesIO(audio_data))
