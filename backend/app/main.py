@@ -37,6 +37,10 @@ async def create_job(job_create: JobCreate):
 @app.get("/jobs/")
 async def list_jobs():
     all_jobs = await Job.find(fetch_links=True).to_list()
+    all_jobs_json = jsonable_encoder(
+        all_jobs, exclude={"sentences": {"__all__": {"audio_data"}}}
+    )
+
     return {"number_of_jobs": len(all_jobs), "jobs": all_jobs}
 
 
