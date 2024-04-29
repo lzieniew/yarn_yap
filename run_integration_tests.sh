@@ -2,8 +2,8 @@
 
 function cleanup {
 	echo "Stopping integration_tests_runner container..."
-	docker stop integration_tests_runner &
-	docker rm integration_tests_runner &
+	docker stop integration_tests_runner
+	docker rm integration_tests_runner
 }
 
 trap cleanup EXIT

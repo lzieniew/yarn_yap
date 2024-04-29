@@ -1,3 +1,4 @@
+import os
 import time
 from beanie.odm.utils.init import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -61,3 +62,13 @@ def mongo_db():
 
     # Cleanup
     mongo_container.stop()
+
+    import os
+
+
+import pytest
+
+
+@pytest.fixture(scope="session")
+def docker_compose_file(pytestconfig):
+    return os.path.join(str(pytestconfig.rootdir), "./", "docker-compose.yml")
