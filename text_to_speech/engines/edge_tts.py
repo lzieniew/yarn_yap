@@ -4,6 +4,8 @@ import threading
 import edge_tts
 from pydub.audio_segment import AudioSegment
 
+from shared_components.enums import GenerationMethod
+
 
 language_to_voice = {"en": "en-GB-SoniaNeural", "pl": "pl-PL-MarekNeural"}
 
@@ -39,3 +41,7 @@ def generate(text: str, language: str, tts, file_path: str) -> str:
 
 def get_supported_languages() -> list[str]:
     return {"supported_languages": list(language_to_voice.keys())}
+
+
+def get_generation_method():
+    return GenerationMethod.EXTERNAL_SERVICE

@@ -6,12 +6,16 @@ from bson import ObjectId
 from shared_components.models import Job, Sentence
 from shared_components.utils import run_async
 
-from worker.tts_adapter import LanguageNotSupportedException, send_tts_request
+from worker.tts_adapter import (
+    LanguageNotSupportedException,
+    send_generation_method_request,
+    send_tts_request,
+)
 
 
 def update_progress(processed_sentences: int, all_sentences: int, job: Job):
     job.progress_percent = f"{(processed_sentences / all_sentences) * 100.0:.2f}"
-    run_async(job.save())
+    run_async(job.replace())
 
 
 def generate(job: Job):
@@ -31,12 +35,14 @@ def generate(job: Job):
                 language=sentence.language,
                 fallback_language=job.language,
             )
+            generation_method = send_generation_method_request()
             sentence.generation_time = int(time.time() - start_time)
             audio_bytes = audio_data.export(format="wav").read()
             audio_data_base64 = base64.b64encode(audio_bytes).decode("utf-8")
             sentence.audio_data = audio_data_base64
             sentence.generated = True
-            run_async(sentence.save())
+            sentence.generation_method = generation_method
+            run_async(sentence.replace())
         except LanguageNotSupportedException as ex:
             # neither sentence language or whole text language are supported, skipping
             print(f"Error {ex}")

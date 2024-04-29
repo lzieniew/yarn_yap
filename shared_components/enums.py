@@ -6,3 +6,9 @@ class JobStatus(str, Enum):
     FETCHED = "waiting to sanitize"
     SANITIZED = "sanitized"
     GENERATED = "generated"
+
+
+class GenerationMethod(str, Enum):
+    GPU = "GPU"
+    CPU = "CPU"
+    EXTERNAL_SERVICE = "External service"

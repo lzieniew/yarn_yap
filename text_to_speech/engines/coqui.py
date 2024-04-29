@@ -3,10 +3,18 @@ import os
 import torch
 from TTS.api import TTS
 
+from shared_components.enums import GenerationMethod
+
+
+generation_method = None
+
 
 def initialize():
+    global generation_method
     os.environ["COQUI_TOS_AGREED"] = "1"
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    cude_available = torch.cuda.is_available()
+    generation_method = GenerationMethod.GPU if cude_available else GenerationMethod.CPU
+    device = "cuda" if cude_available else "cpu"
     return TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)
 
 
@@ -47,3 +55,8 @@ def get_supported_languages():
             "hi",
         ]
     }
+
+
+def get_generation_method():
+    global generation_method
+    return generation_method

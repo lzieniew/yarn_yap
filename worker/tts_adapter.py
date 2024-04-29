@@ -2,6 +2,8 @@ import requests
 import io
 from pydub import AudioSegment
 
+from shared_components.enums import GenerationMethod
+
 
 BASE_TTS_URL = "http://text_to_speech:8000"
 
@@ -45,3 +47,8 @@ def send_tts_request(text: str, language: str, fallback_language: str):
         return AudioSegment.from_file(io.BytesIO(response.content), format="wav")
     else:
         print(f"ERROR, response {response.status_code}, {response.content}")
+
+
+def send_generation_method_request():
+    response = requests.get(f"{BASE_TTS_URL}/generation_method")
+    return GenerationMethod(response.json()["method"])

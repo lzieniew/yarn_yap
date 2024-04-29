@@ -1,9 +1,11 @@
+from time import time
 from contextlib import asynccontextmanager
 from io import BytesIO
 import base64
 from beanie.odm.documents import MergeStrategy
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException
+from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse
 from pydub.audio_segment import AudioSegment
 from starlette.responses import StreamingResponse
@@ -13,6 +15,10 @@ from shared_components import JobStatus
 from shared_components import Job, JobCreate
 from shared_components.db_init import init_db
 from shared_components.models import Sentence
+from shared_components.utils import (
+    remove_audio_content_repr_from_sentence,
+    remove_audio_content_repr_from_sentences_in_job,
+)
 
 
 @asynccontextmanager
@@ -37,41 +43,32 @@ async def create_job(job_create: JobCreate):
 @app.get("/jobs/")
 async def list_jobs():
     all_jobs = await Job.find(fetch_links=True).to_list()
-    all_jobs_json = jsonable_encoder(
-        all_jobs, exclude={"sentences": {"__all__": {"audio_data"}}}
-    )
-
+    for job in all_jobs:
+        remove_audio_content_repr_from_sentences_in_job(job)
     return {"number_of_jobs": len(all_jobs), "jobs": all_jobs}
 
 
 @app.get("/jobs/{job_id}")
 async def get_job(job_id: str):
-    job = await Job.find_one(Job.id == ObjectId(job_id))
+    job = await Job.find_one(Job.id == ObjectId(job_id), fetch_links=True)
 
     if job is None:
         raise HTTPException(status_code=404, detail="Job not found")
+    remove_audio_content_repr_from_sentences_in_job(job)
     return {"job": job.model_dump()}
 
 
 @app.get("/jobs/{job_id}/sentences")
 async def get_job_sentences(job_id: str):
     job = await Job.find_one(Job.id == ObjectId(job_id), fetch_links=True)
-    sentences = job.sentences
-    all_sentences = []
-    for sentence in sentences:
-        sentence.sync(merge_strategy=MergeStrategy.remote)
-        sentence_data = sentence.model_dump()
-        audio_data = sentence_data.pop("audio_data")
-        sentence_data["audio_data_summary"] = (
-            f"Audio data of length: {len(audio_data)}"
-            if audio_data
-            else "No audio data"
-        )
-        all_sentences.append(sentence_data)
 
     if job is None:
         raise HTTPException(status_code=404, detail="Job not found")
-    return {"number_of_sentences": len(sentences), "sentences": all_sentences}
+
+    for sentence in job.get_sorted_sentences():
+        remove_audio_content_repr_from_sentence(sentence)
+
+    return {"number_of_sentences": len(job.sentences), "sentences": job.sentences}
 
 
 @app.get("/jobs/{job_id}/audio")
@@ -86,8 +83,7 @@ async def get_job_audio(job_id: str):
 
     combined_audio = None
 
-    for sentence in job.sentences:
-        sentence.sync(merge_strategy=MergeStrategy.remote)
+    for sentence in job.get_sorted_sentences():
         if sentence.audio_data:
             audio_data = base64.b64decode(sentence.audio_data)
             audio_segment = AudioSegment.from_wav(BytesIO(audio_data))

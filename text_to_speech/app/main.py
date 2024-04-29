@@ -25,14 +25,17 @@ app = FastAPI(lifespan=lifespan)
 
 
 def run_generation(text: str, language: str, file_path: str) -> str:
-    start_time = time()
     tts_module.generate(text, language, tts, file_path)
-    print(f"Whole generation of text of length {len(text)} took {time() - start_time}")
 
 
 @app.get("/ready")
 async def readiness_check():
     return {"ready": tts_module.ready(tts)}
+
+
+@app.get("/generation_method")
+async def get_generation_method():
+    return {"method": tts_module.get_generation_method()}
 
 
 @app.get("/languages")

@@ -13,7 +13,7 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   11. [x] implement handling inactivity of the text generator container
   12. [x] implement recognising the whole text language as fallback
   13. [x] add some alternative generation engine with lower requirements for development purposes, but also for less powerful machines
-  14. [ ] Implement caching mechanism, and by doing this also add some info to Job and maybe child model, like the method of generation (CPU vs GPU), generation time for every chunk, actual data etc. (to be determined if the generation data should go inside Job model, as children of Job, or to different database)
+  14. [x] Implement caching mechanism, and by doing this also add some info to Job and maybe child model, like the method of generation (CPU vs GPU), generation time for every chunk, actual data etc. (to be determined if the generation data should go inside Job model, as children of Job, or to different database)
   15. [ ] Implement cleaning mechanism in the background worker
   16. [ ] Write tests for cleaning
   17. [ ] Check if there is some way to clean already generated audio from those strange glitches
@@ -42,13 +42,14 @@ Other things todo:
   - [x] fix potential race with file saving in text to speech - add randomized file name and removing them after some time
   - [x] make sure that the model is not redownloading every ??? (I don't know when redownloading occurs, find this out!)
   - [x] check why player doesn't appear on text_to_speech api and appears on backend api
-  - [ ] fix utf-8 error 
-  - [ ] change Job.audio_path to Job.audio_content - so there will be no temporary files in repo. In time the content will be moved into subjobs, so even in the case of audiobook there will be no long files that would be greater than mongo limit
+  - [x] fix utf-8 error 
+  - [x] change Job.audio_path to Job.audio_content - so there will be no temporary files in repo. In time the content will be moved into subjobs, so even in the case of audiobook there will be no long files that would be greater than mongo limit
+  - [x] Try to implement some resuming mechanism (very useful for long jobs), maybe other collection in mongo with saving small files - it can even be deleted after job is done. The key might be job_id + index of sentence - almost the same as 14. point above
+  - [ ] Keep the sentences order!
   - [ ] return data about generation from the generation endpoint - like time, method (CPU/GPU) etc - in preparation of caching feature which will at the same time save more info about the generation
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
-  - [ ] Try to implement some resuming mechanism (very useful for long jobs), maybe other collection in mongo with saving small files - it can even be deleted after job is done. The key might be job_id + index of sentence - almost the same as 14. point above
-  - [ ] Check and try to split long sentences into shorter ones (there are warnings that pl has 224 chars limit)
+  - [ ] Check and try to split long sentences into shorter ones (there are warnings that pl has 224 chars limit, and en has 250 characters limit)
   - [ ] Improve sentence splitting, especially on text with a lot of extra dots (np. Pasta o spłuczce do kibla). It's important because tts generates random sounds when encountering multiple dots
   - [ ] Fix error with duplicating jobs - maybe make different function for saving and upating
   - [ ] Fix progress in percent - right now it ignores skipped sentences, and doesn't reach 100%

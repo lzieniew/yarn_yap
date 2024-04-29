@@ -2,6 +2,7 @@ import time
 from shared_components import Job
 from shared_components.db_init import init_db
 from shared_components.enums import JobStatus
+from shared_components.models import Sentence
 from worker.fetcher import fetch_url
 from worker.generator import generate
 from worker.splitter import detect_whole_text_language, split_into_sentences
@@ -23,7 +24,7 @@ def process_job(job: Job):
         job.language = detect_whole_text_language(job.raw_text)
         job.sentences = split_into_sentences(job.raw_text)
         job.status = JobStatus.SANITIZED
-        run_async(job.save())
+        run_aync(job.save())
 
     if job.status == JobStatus.SANITIZED:
         if check_if_tts_active():
