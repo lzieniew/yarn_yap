@@ -48,7 +48,11 @@ Other things todo:
   - [x] Try to implement some resuming mechanism (very useful for long jobs), maybe other collection in mongo with saving small files - it can even be deleted after job is done. The key might be job_id + index of sentence - almost the same as 14. point above
   - [x] Keep the sentences order!
   - [x] return data about generation from the generation endpoint - like time, method (CPU/GPU) etc - in preparation of caching feature which will at the same time save more info about the generation
-  - [ ] Write integration tests - each one would have different text or url (in case of url the function fetching raw url will be mocked, to eliminate network calls in test) and I will check if the text was generated properly. They could also have "real mode", that wouldn not run on github pipeline and would actually generate audio, so I will be abel to listen to it after some bigger changes and check if it changed
+  - [ ] Fix max size error when sum of all sentences audio reaches 16MB. I have 3 ideas:
+      1. getting rid of downloading all sentences, operating on links only and then downloading them one by one
+      2. Move audio content to other documents, so Job will be possible to download with fetch_links=True and nesting_depth=1.
+      3. Use gridFS or some other way
+  - [ ] Write integration tests - each one would have different text or url (in case of url the function fetching raw url will be mocked, to eliminate network calls in test) and I will check if the text was generated properly. They could also have "real mode", that wouldn not run on github pipeline and would actually generate audio, so I will be able to listen to it after some bigger changes and check if it changed
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
   - [ ] Check and try to split long sentences into shorter ones (there are warnings that pl has 224 chars limit, and en has 250 characters limit)
