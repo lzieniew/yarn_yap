@@ -1,3 +1,4 @@
+import os
 from contextlib import asynccontextmanager
 from time import time
 from fastapi import FastAPI, HTTPException
@@ -6,7 +7,9 @@ from shared_components.config import get_tts_engine
 import importlib
 from tempfile import NamedTemporaryFile
 
-tts_module = importlib.import_module(f"text_to_speech.engines.{get_tts_engine()}")
+dummy_mode = os.getenv("DUMMY_MODE")
+tts_engine = get_tts_engine() if not dummy_mode else "dummy"
+tts_module = importlib.import_module(f"text_to_speech.engines.{tts_engine}")
 
 
 tts = None
@@ -16,16 +19,13 @@ tts = None
 async def lifespan(app: FastAPI):
     global tts
     start_time = time()
+    print(f"======================= TTS ENGINE: {tts_engine} =======================")
     tts = tts_module.initialize()
     print(f"Initialization done! It took {time() - start_time}")
     yield
 
 
 app = FastAPI(lifespan=lifespan)
-
-
-def run_generation(text: str, language: str, file_path: str) -> str:
-    tts_module.generate(text, language, tts, file_path)
 
 
 @app.get("/ready")
@@ -54,7 +54,7 @@ async def generate_audio(
     try:
         with NamedTemporaryFile(delete=False) as temp_file:
             file_path = temp_file.name
-            run_generation(text, language, file_path)
+            tts_module.generate(text, language, tts, file_path)
             with open(file_path, "rb") as f:
                 audio_data = f.read()
             return Response(

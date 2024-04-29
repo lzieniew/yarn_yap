@@ -109,3 +109,4 @@ venv.bak/
 
 # downloaded tts models
 .models
+.mongodb_data

@@ -30,6 +30,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
+@app.get("/health")
+def health():
+    return True
+
+
 @app.post("/jobs/")
 async def create_job(job_create: JobCreate):
     job_data = job_create.model_dump()
@@ -111,7 +116,6 @@ async def delete_job(job_id: str):
 
 @app.delete("/jobs")
 async def delete_all_jobs():
-    # Delete all jobs from the database
-    await Job.delete_all()
     await Sentence.delete_all()
+    await Job.delete_all()
     return {"message": "All jobs have been deleted."}

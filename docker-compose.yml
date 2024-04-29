@@ -40,13 +40,15 @@ services:
       - ./.edge_nltk_data:/root/nltk_data/
     environment:
       - PYTHONUNBUFFERED=1
+      # for now it's only way I know to turn on dummy mode, need to find another
+      # - DUMMY_MODE=1
 
   mongodb:
     image: mongo:latest
     ports:
       - "27017:27017"
     volumes:
-      - mongodb_data:/data/db
+      - ./.mongodb_data:/data/db
 
   mongoku:
     image: huggingface/mongoku
