@@ -6,12 +6,16 @@ from beanie import Document
 from .enums import GenerationMethod, JobStatus
 
 
+class AudioData(Document):
+    data: str | None = None
+
+
 class Sentence(Document):
     text: str | None = None
     generated: bool | None = False
     generation_time: int | None = None
     language: str | None = None
-    audio_data: str | None = None
+    audio_data: Link[AudioData] | None = None
     generation_method: GenerationMethod | None = None
     sentence_number: int | None = None
 

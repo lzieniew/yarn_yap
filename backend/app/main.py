@@ -15,10 +15,6 @@ from shared_components import JobStatus
 from shared_components import Job, JobCreate
 from shared_components.db_init import init_db
 from shared_components.models import Sentence
-from shared_components.utils import (
-    remove_audio_content_repr_from_sentence,
-    remove_audio_content_repr_from_sentences_in_job,
-)
 
 
 @asynccontextmanager
@@ -47,9 +43,7 @@ async def create_job(job_create: JobCreate):
 
 @app.get("/jobs/")
 async def list_jobs():
-    all_jobs = await Job.find(fetch_links=True).to_list()
-    for job in all_jobs:
-        remove_audio_content_repr_from_sentences_in_job(job)
+    all_jobs = await Job.find(fetch_links=True, nesting_depth=1).to_list()
     return {"number_of_jobs": len(all_jobs), "jobs": all_jobs}
 
 
@@ -57,9 +51,6 @@ async def list_jobs():
 async def get_job(job_id: str):
     job = await Job.find_one(Job.id == ObjectId(job_id), fetch_links=True)
 
-    if job is None:
-        raise HTTPException(status_code=404, detail="Job not found")
-    remove_audio_content_repr_from_sentences_in_job(job)
     return {"job": job.model_dump()}
 
 
@@ -70,15 +61,14 @@ async def get_job_sentences(job_id: str):
     if job is None:
         raise HTTPException(status_code=404, detail="Job not found")
 
-    for sentence in job.get_sorted_sentences():
-        remove_audio_content_repr_from_sentence(sentence)
-
     return {"number_of_sentences": len(job.sentences), "sentences": job.sentences}
 
 
 @app.get("/jobs/{job_id}/audio")
 async def get_job_audio(job_id: str):
-    job = await Job.find_one(Job.id == ObjectId(job_id), fetch_links=True)
+    job = await Job.find_one(
+        Job.id == ObjectId(job_id), fetch_links=True, nesting_depth=1
+    )
 
     if job is None:
         raise HTTPException(status_code=404, detail="Job not found")
@@ -89,8 +79,9 @@ async def get_job_audio(job_id: str):
     combined_audio = None
 
     for sentence in job.get_sorted_sentences():
+        await sentence.fetch_all_links()
         if sentence.audio_data:
-            audio_data = base64.b64decode(sentence.audio_data)
+            audio_data = base64.b64decode(sentence.audio_data.data)
             audio_segment = AudioSegment.from_wav(BytesIO(audio_data))
 
             if combined_audio is None:

@@ -3,7 +3,7 @@ import time
 from beanie.odm.fields import WriteRules
 from bson import ObjectId
 
-from shared_components.models import Job, Sentence
+from shared_components.models import AudioData, Job, Sentence
 from shared_components.utils import run_async
 
 from worker.tts_adapter import (
@@ -39,7 +39,9 @@ def generate(job: Job):
             sentence.generation_time = int(time.time() - start_time)
             audio_bytes = audio_data.export(format="wav").read()
             audio_data_base64 = base64.b64encode(audio_bytes).decode("utf-8")
-            sentence.audio_data = audio_data_base64
+            audio_data = AudioData(data=audio_data_base64)
+            run_async(audio_data.create())
+            sentence.audio_data = audio_data
             sentence.generated = True
             sentence.generation_method = generation_method
             run_async(sentence.replace())
