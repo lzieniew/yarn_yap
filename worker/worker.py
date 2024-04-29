@@ -24,7 +24,7 @@ def process_job(job: Job):
         job.language = detect_whole_text_language(job.raw_text)
         job.sentences = split_into_sentences(job.raw_text)
         job.status = JobStatus.SANITIZED
-        run_aync(job.save())
+        run_async(job.save())
 
     if job.status == JobStatus.SANITIZED:
         if check_if_tts_active():
