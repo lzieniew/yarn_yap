@@ -14,7 +14,7 @@ import wave
 from shared_components import JobStatus
 from shared_components import Job, JobCreate
 from shared_components.db_init import init_db
-from shared_components.models import Sentence
+from shared_components.models import AudioData, Sentence
 
 
 @asynccontextmanager
@@ -107,6 +107,7 @@ async def delete_job(job_id: str):
 
 @app.delete("/jobs")
 async def delete_all_jobs():
+    AudioData.delete_all()
     await Sentence.delete_all()
     await Job.delete_all()
     return {"message": "All jobs have been deleted."}

@@ -49,7 +49,7 @@ Other things todo:
   - [x] Keep the sentences order!
   - [x] return data about generation from the generation endpoint - like time, method (CPU/GPU) etc - in preparation of caching feature which will at the same time save more info about the generation
   - [x] Fix max size error when sum of all sentences audio reaches 16MB. I have 3 ideas:
-  - [ ] Check and try to split long sentences into shorter ones (there are warnings that pl has 224 chars limit, and en has 250 characters limit)
+  - [x] Check and try to split long sentences into shorter ones (there are warnings that pl has 224 chars limit, and en has 250 characters limit) - done in naive way, just by word_wrap - maybe will improve it
   - [ ] Write integration tests - each one would have different text or url (in case of url the function fetching raw url will be mocked, to eliminate network calls in test) and I will check if the text was generated properly. They could also have "real mode", that wouldn not run on github pipeline and would actually generate audio, so I will be able to listen to it after some bigger changes and check if it changed
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
@@ -58,7 +58,7 @@ Other things todo:
   - [ ] Fix progress in percent - right now it ignores skipped sentences, and doesn't reach 100%
   - [ ] Write worker tests, create mock text_to_speech api for it
   - [ ] ??? Implement automaticaly extracting sample voice from youtube link
-  - [ ] Maybe implement some more sophisticated algorith to further split long sentences, instead wordwrap
+  - [ ] Maybe implement some more sophisticated algorith to further split long sentences, instead wordwrap. It would probably have 3 stages: split by semicolons ; if sentences are still too long by comma , if still to long use standard word_wrap
 
 Testing different TTS engines:
   - StyleTTS - current first choice, very fast, reasonable speed even on CPU only, good quality
