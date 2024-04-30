@@ -34,7 +34,6 @@ jobs:
         python -m pip install --upgrade pip setuptools
         pip install -r worker/requirements.txt
         pip install -r backend/requirements.txt
-        pip install docker-compose
     - name: Run tests
       run: pytest
 
