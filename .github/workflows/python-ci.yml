@@ -25,10 +25,12 @@ jobs:
       run: |
         python -m venv venv
         source venv/bin/activate
-    - name: Check docker service
+    - name: Start docker-compose
       run : |
-        docker info
-        docker ps
+        docker-compose up --build -d
+    - name: Check docker-compose
+      run: |
+        docker-compose ps
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools
