@@ -25,6 +25,10 @@ jobs:
       run: |
         python -m venv venv
         source venv/bin/activate
+    - name: Check docker service
+      run : |
+        docker info
+        docker ps
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools
