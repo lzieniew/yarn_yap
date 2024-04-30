@@ -29,6 +29,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip setuptools
         pip install -r worker/requirements.txt
+        pip install -r backend/requirements.txt
     - name: Run tests
       run: pytest
 
