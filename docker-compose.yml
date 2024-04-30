@@ -41,7 +41,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       # setting DUMMY_MODE in local shell turns on the dummy mode, otherwise it's standard. Dummy mode can be run with env DUMMY_MODE=1 docker-compose up --build
-      - DUMMY_MODE=${DUMMY_MODE:-0}
+      - DUMMY_MODE=${DUMMY_MODE}
 
   mongodb:
     image: mongo:latest
