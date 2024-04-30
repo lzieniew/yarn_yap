@@ -40,8 +40,8 @@ services:
       - ./.edge_nltk_data:/root/nltk_data/
     environment:
       - PYTHONUNBUFFERED=1
-      # for now it's only way I know to turn on dummy mode, need to find another
-      # - DUMMY_MODE=1
+      # setting DUMMY_MODE in local shell turns on the dummy mode, otherwise it's standard. Dummy mode can be run with env DUMMY_MODE=1 docker-compose up --build
+      - DUMMY_MODE=${DUMMY_MODE:-0}
 
   mongodb:
     image: mongo:latest

@@ -50,7 +50,8 @@ Other things todo:
   - [x] return data about generation from the generation endpoint - like time, method (CPU/GPU) etc - in preparation of caching feature which will at the same time save more info about the generation
   - [x] Fix max size error when sum of all sentences audio reaches 16MB. I have 3 ideas:
   - [x] Check and try to split long sentences into shorter ones (there are warnings that pl has 224 chars limit, and en has 250 characters limit) - done in naive way, just by word_wrap - maybe will improve it
-  - [ ] Write integration tests - each one would have different text or url (in case of url the function fetching raw url will be mocked, to eliminate network calls in test) and I will check if the text was generated properly. They could also have "real mode", that wouldn not run on github pipeline and would actually generate audio, so I will be able to listen to it after some bigger changes and check if it changed
+  - [x] Write integration tests - each one would have different text or url (in case of url the function fetching raw url will be mocked, to eliminate network calls in test) and I will check if the text was generated properly. They could also have "real mode", that wouldn not run on github pipeline and would actually generate audio, so I will be able to listen to it after some bigger changes and check if it changed
+  - [ ] Expand integration tests: make active waiting, instead of sleep(20), check if audio file is correct, etc.
   - [ ] implement uploading own voices
   - [ ] Change statuses to be more descriptive
   - [ ] Improve sentence splitting, especially on text with a lot of extra dots (np. Pasta o spłuczce do kibla). It's important because tts generates random sounds when encountering multiple dots

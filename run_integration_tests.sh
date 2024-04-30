@@ -8,9 +8,5 @@ function cleanup {
 
 trap cleanup EXIT
 
-docker-compose up -d --build -e DUMMY_MODE=1
-
-docker build -t integration_tests_runner -f ./integration_tests/Dockerfile_integration_tests .
-docker run --privileged --name integration_tests_runner -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd):/app" -d integration_tests_runner
-
-docker logs -f integration_tests_runner
+docker-compose down
+time env DUMMY_MODE=1 pytest integration_tests/test_integration.py

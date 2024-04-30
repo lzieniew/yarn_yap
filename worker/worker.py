@@ -52,7 +52,7 @@ def main():
     run_async(init_db())
     while True:
         process_jobs()
-        time.sleep(5)
+        time.sleep(2)
 
 
 if __name__ == "__main__":

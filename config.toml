@@ -1,5 +1,5 @@
-tts_engine = "coqui"
-#tts_engine = "edge_tts"
+#tts_engine = "coqui"
+tts_engine = "edge_tts"
 #tts_engine = "dummy"
 
 max_sentence_length = 250
