@@ -19,6 +19,8 @@ High level overwiev of what has to be done for YarnYap - article to speech prgra
   17. [ ] Check if there is some way to clean already generated audio from those strange glitches
   18. [ ] Create the fetching mechanism
   19. [ ] Create a frontend in VUE js
+    19.0 [ ] refresh html + css + js xD
+    19.1 [ ] learn VUE xD
   20. [ ] Adapt fetching mechanism for Reddit
   21. [ ] To be decided - maybe use whisper to verify the output text, even only to tell user to check if those clips are okay
 
