@@ -10,6 +10,8 @@ from fastapi.responses import FileResponse
 from pydub.audio_segment import AudioSegment
 from starlette.responses import StreamingResponse
 import wave
+from pathlib import Path
+from pydub import AudioSegment
 
 from shared_components import JobStatus
 from shared_components import Job, JobCreate
@@ -76,9 +78,20 @@ async def get_job_audio(job_id: str):
     if len(job.sentences) == 0:
         raise HTTPException(status_code=404, detail="No audio data available")
 
+    output_file_path = Path(f"{job_id}.wav")
+
+    # Check if the file already exists
+    if output_file_path.exists():
+        return FileResponse(
+            str(output_file_path), media_type="audio/wav", filename=f"{job_id}.wav"
+        )
+
     combined_audio = None
 
-    for sentence in job.get_sorted_sentences():
+    sorted_sentences = job.get_sorted_sentences()
+    counter = 0
+    for sentence in sorted_sentences:
+        print(f"Processing {counter} out of {len(sorted_sentences)} sentences")
         await sentence.fetch_all_links()
         if sentence.audio_data:
             audio_data = base64.b64decode(sentence.audio_data.data)
@@ -88,12 +101,14 @@ async def get_job_audio(job_id: str):
                 combined_audio = audio_segment
             else:
                 combined_audio += audio_segment
+        counter += 1
 
-    output_audio_data = BytesIO()
     if combined_audio:
-        combined_audio.export(output_audio_data, format="wav")
-        output_audio_data.seek(0)
-        return StreamingResponse(content=output_audio_data, media_type="audio/wav")
+        # Export directly to file
+        combined_audio.export(output_file_path, format="wav")
+        return FileResponse(
+            str(output_file_path), media_type="audio/wav", filename=f"{job_id}.wav"
+        )
     else:
         raise HTTPException(status_code=404, detail="No audio combined")
 
