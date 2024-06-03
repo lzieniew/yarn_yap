@@ -78,12 +78,12 @@ async def get_job_audio(job_id: str):
     if len(job.sentences) == 0:
         raise HTTPException(status_code=404, detail="No audio data available")
 
-    output_file_path = Path(f"{job_id}.wav")
+    output_file_path = Path(f"{job_id}.mp3")
 
     # Check if the file already exists
     if output_file_path.exists():
         return FileResponse(
-            str(output_file_path), media_type="audio/wav", filename=f"{job_id}.wav"
+            str(output_file_path), media_type="audio/mp3", filename=f"{job_id}.mp3"
         )
 
     combined_audio = None
@@ -95,7 +95,7 @@ async def get_job_audio(job_id: str):
         await sentence.fetch_all_links()
         if sentence.audio_data:
             audio_data = base64.b64decode(sentence.audio_data.data)
-            audio_segment = AudioSegment.from_wav(BytesIO(audio_data))
+            audio_segment = AudioSegment.from_file(BytesIO(audio_data), format="mp3")
 
             if combined_audio is None:
                 combined_audio = audio_segment
@@ -105,9 +105,9 @@ async def get_job_audio(job_id: str):
 
     if combined_audio:
         # Export directly to file
-        combined_audio.export(output_file_path, format="wav")
+        combined_audio.export(output_file_path, format="mp3")
         return FileResponse(
-            str(output_file_path), media_type="audio/wav", filename=f"{job_id}.wav"
+            str(output_file_path), media_type="audio/mp3", filename=f"{job_id}.mp3"
         )
     else:
         raise HTTPException(status_code=404, detail="No audio combined")
